@@ -1,5 +1,5 @@
 name: flutter_settings
-description: "A new Flutter package project."
+description: "Iconica Flutter Settings component"
 version: 1.0.0
 
 environment:
@@ -13,6 +13,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
-
+  flutter_iconica_analysis:
+    git:
+      url: https://github.com/Iconica-Development/flutter_iconica_analysis
+      ref: 6.0.0
+      
 flutter:
