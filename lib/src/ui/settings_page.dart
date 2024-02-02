@@ -8,10 +8,15 @@ class SettingsPage extends StatelessWidget {
     this.logoutText = 'Log out',
     this.editProfileText = 'Edit profile',
     this.editProfileIcon,
+    this.editProfileHeight,
+    this.profileSuffixIcon,
+    this.titleAndImagespacing,
+    this.imageAndNameSpacing,
     this.extraSettings = const [],
     this.onProfileEdit,
     this.onProfileView,
     this.onLogout,
+    this.editProfileDecoration,
     super.key,
   });
 
@@ -22,6 +27,13 @@ class SettingsPage extends StatelessWidget {
   final String logoutText;
 
   final Widget? editProfileIcon;
+  final Widget? profileSuffixIcon;
+  final BoxDecoration? editProfileDecoration;
+  final double? editProfileHeight;
+
+  final double? titleAndImagespacing;
+  final double? imageAndNameSpacing;
+
   final String editProfileText;
 
   final List<Widget> extraSettings;
@@ -35,26 +47,35 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         children: [
           Text(settingsTitle),
+          SizedBox(height: titleAndImagespacing ?? 0),
           GestureDetector(
             onTap: onProfileView,
             child: Avatar(
               user: user,
             ),
           ),
+          SizedBox(height: imageAndNameSpacing ?? 0),
           Text('${user.firstName ?? ''} ${user.lastName ?? ''}'),
           const SizedBox(height: 20),
           const Divider(),
           GestureDetector(
             onTap: onProfileEdit,
-            child: Row(
-              children: [
-                const SizedBox(width: 20),
-                editProfileIcon ?? const Icon(Icons.person_2_outlined),
-                Text(editProfileText),
-                const Spacer(),
-                const Icon(Icons.arrow_forward_ios),
-                const SizedBox(width: 20),
-              ],
+            child: Container(
+              height: editProfileHeight,
+              decoration: editProfileDecoration ??
+                  const BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+              child: Row(
+                children: [
+                  const SizedBox(width: 20),
+                  editProfileIcon ?? const Icon(Icons.person_2_outlined),
+                  Text(editProfileText),
+                  const Spacer(),
+                  profileSuffixIcon ?? const Icon(Icons.arrow_forward_ios),
+                  const SizedBox(width: 20),
+                ],
+              ),
             ),
           ),
           const Divider(),
