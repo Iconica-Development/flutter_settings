@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2022 Iconica
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 # Miscellaneous
 *.class
 *.log
@@ -23,8 +27,23 @@ migrate_working_dir/
 
 # Flutter/Dart/Pub related
 # Libraries should not include pubspec.lock, per https://dart.dev/guides/libraries/private-files#pubspeclock.
-/pubspec.lock
+# /pubspec.lock
 **/doc/api/
 .dart_tool/
+.packages
 build/
+.flutter-plugins-dependencies
+.flutter-plugins
 .metadata
+
+pubspec.lock
+
+pubspec_overrides.yaml
+
+**/example/android
+**/example/ios
+**/example/linux
+**/example/macos
+**/example/windows
+**/example/web
+**/example/README.md
