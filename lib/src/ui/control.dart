@@ -1,7 +1,7 @@
 ///
+// ignore_for_file: avoid_annotating_with_dynamic
+
 import 'package:flutter/material.dart';
-
-
 
 /// The settings are saved to shared preferences. Use the key you set to extract
 /// the value of the settings.
@@ -19,11 +19,11 @@ import 'package:flutter/material.dart';
 /// TextField String
 enum ControlType {
   dropDown,
-  radio,
+  // radio,
   checkBox,
   number,
   toggle,
-  range,
+  // range,
   group,
   textField,
   page,
@@ -33,7 +33,6 @@ enum ControlType {
   custom
 }
 
-//TODO(Jacques): Reinstate validators
 class Control extends ChangeNotifier {
   Control({
     required this.key,
@@ -46,15 +45,16 @@ class Control extends ChangeNotifier {
     this.title,
     this.value,
     this.keyboardType,
-    // this.validators,
+    this.validator,
     this.isRequired = true,
+    this.prefixIcon,
   });
 
   factory Control.page({
     required List<Control> controls,
     required String title,
     condition,
-    IconData? iconData,
+    Widget? prefixIcon,
   }) =>
       Control(
         type: ControlType.page,
@@ -62,34 +62,32 @@ class Control extends ChangeNotifier {
         condition: condition,
         title: title,
         settings: controls,
-        value: {
-          'icon': iconData,
-        },
+        prefixIcon: prefixIcon,
       );
 
-  factory Control.radio({
-    required List<String> options,
-    required String key,
-    String? description,
-    String? title,
-    int? selected,
-    void Function(dynamic)? onChange,
-    condition,
-  }) {
-    if (selected != null) {
-      assert(selected < options.length);
-      assert(selected >= 0);
-    }
-    return Control(
-      value: {'options': options, 'selected': selected},
-      type: ControlType.radio,
-      title: title ?? '',
-      description: description,
-      condition: condition,
-      onChange: onChange,
-      key: key,
-    );
-  }
+  // factory Control.radio({
+  //   required List<String> options,
+  //   required String key,
+  //   String? description,
+  //   String? title,
+  //   int? selected,
+  //   void Function(dynamic)? onChange,
+  //   condition,
+  // }) {
+  //   if (selected != null) {
+  //     assert(selected < options.length);
+  //     assert(selected >= 0);
+  //   }
+  //   return Control(
+  //     value: {'options': options, 'selected': selected},
+  //     type: ControlType.radio,
+  //     title: title ?? '',
+  //     description: description,
+  //     condition: condition,
+  //     onChange: onChange,
+  //     key: key,
+  //   );
+  // }
 
   factory Control.dropDown({
     required List<String> items,
@@ -97,53 +95,55 @@ class Control extends ChangeNotifier {
     String? description,
     String? title,
     int? selected,
-    void Function(dynamic)? onChange,
+    void Function(dynamic value)? onChange,
     condition,
+    Widget? prefixIcon,
   }) {
     if (selected != null) {
-      assert(selected < items.length);
-      assert(selected >= 0);
+      assert(selected < items.length, 'Selected exceeds item length');
+      assert(selected >= 0, 'Selected must be a positive value');
     }
     return Control(
       value: {'items': items, 'selected': selected},
       type: ControlType.dropDown,
-      title: title ?? '',
+      title: title,
       description: description,
       onChange: onChange,
       condition: condition,
       key: key,
+      prefixIcon: prefixIcon,
     );
   }
 
-  factory Control.range({
-    required double min,
-    required double max,
-    required double value,
-    required String key,
-    String? title,
-    String? description,
-    void Function(dynamic)? onChange,
-    double? step,
-    condition,
-  }) {
-    assert(min < max);
-    assert(value >= min);
-    assert(value <= max);
-    return Control(
-      value: <String, double>{
-        'min': min,
-        'max': max,
-        'selected': value,
-        'step': step ?? 100.0,
-      },
-      onChange: onChange,
-      key: key,
-      title: title,
-      description: description,
-      condition: condition,
-      type: ControlType.range,
-    );
-  }
+  // factory Control.range({
+  //   required double min,
+  //   required double max,
+  //   required double value,
+  //   required String key,
+  //   String? title,
+  //   String? description,
+  //   void Function(dynamic)? onChange,
+  //   double? step,
+  //   condition,
+  // }) {
+  //   assert(min < max);
+  //   assert(value >= min);
+  //   assert(value <= max);
+  //   return Control(
+  //     value: <String, double>{
+  //       'min': min,
+  //       'max': max,
+  //       'selected': value,
+  //       'step': step ?? 100.0,
+  //     },
+  //     onChange: onChange,
+  //     key: key,
+  //     title: title,
+  //     description: description,
+  //     condition: condition,
+  //     type: ControlType.range,
+  //   );
+  // }
 
   factory Control.toggle({
     required String key,
@@ -152,6 +152,7 @@ class Control extends ChangeNotifier {
     condition,
     void Function(dynamic)? onChange,
     bool? value,
+    Widget? prefixIcon,
   }) =>
       Control(
         title: title ?? '',
@@ -161,6 +162,7 @@ class Control extends ChangeNotifier {
         onChange: onChange,
         key: key,
         type: ControlType.toggle,
+        prefixIcon: prefixIcon,
       );
 
   factory Control.checkBox({
@@ -170,6 +172,7 @@ class Control extends ChangeNotifier {
     condition,
     void Function(dynamic)? onChange,
     bool? value,
+    Widget? prefixIcon,
   }) =>
       Control(
         title: title ?? '',
@@ -179,6 +182,7 @@ class Control extends ChangeNotifier {
         onChange: onChange,
         key: key,
         type: ControlType.checkBox,
+        prefixIcon: prefixIcon,
       );
 
   factory Control.number({
@@ -187,9 +191,10 @@ class Control extends ChangeNotifier {
     String? title,
     condition,
     void Function(dynamic)? onChange,
-    double? value,
-    double? max,
-    double? min,
+    int? value,
+    int? max,
+    int? min,
+    Widget? prefixIcon,
   }) =>
       Control(
         title: title ?? '',
@@ -198,11 +203,12 @@ class Control extends ChangeNotifier {
         onChange: onChange,
         key: key,
         type: ControlType.number,
-        value: <String, double>{
-          'selected': value ?? min ?? 0.0,
-          'min': min ?? -double.maxFinite,
-          'max': max ?? double.maxFinite,
+        value: <String, int>{
+          'selected': value ?? min ?? 0,
+          'min': min ?? 0,
+          'max': max ?? 10,
         },
+        prefixIcon: prefixIcon,
       );
 
   factory Control.date({
@@ -214,6 +220,7 @@ class Control extends ChangeNotifier {
     DateTime? value,
     DateTime? min,
     DateTime? max,
+    Widget? prefixIcon,
   }) =>
       Control(
         key: key,
@@ -230,6 +237,7 @@ class Control extends ChangeNotifier {
                 const Duration(days: 365),
               ),
         },
+        prefixIcon: prefixIcon,
       );
 
   factory Control.time({
@@ -239,6 +247,7 @@ class Control extends ChangeNotifier {
     condition,
     void Function(dynamic)? onChange,
     TimeOfDay? value,
+    Widget? prefixIcon,
   }) =>
       Control(
         key: key,
@@ -248,6 +257,7 @@ class Control extends ChangeNotifier {
         condition: condition,
         onChange: onChange,
         value: value ?? TimeOfDay.now(),
+        prefixIcon: prefixIcon,
       );
 
   factory Control.dateRange({
@@ -259,6 +269,7 @@ class Control extends ChangeNotifier {
     DateTimeRange? value,
     DateTime? min,
     DateTime? max,
+    Widget? prefixIcon,
   }) =>
       Control(
         key: key,
@@ -276,19 +287,24 @@ class Control extends ChangeNotifier {
               (min ?? value?.start ?? DateTime.now())
                   .add(const Duration(days: 365)),
         },
+        prefixIcon: prefixIcon,
       );
 
   factory Control.group({
     required List<Control> settings,
     condition,
     String? title,
+    Widget? prefixIcon,
   }) =>
       Control(
-          type: ControlType.group,
-          key: 'group_$title',
-          settings: settings,
-          condition: condition,
-          title: title ?? '');
+        type: ControlType.group,
+        key: 'group_$title',
+        settings: settings,
+        condition: condition,
+        title: title,
+        prefixIcon: prefixIcon,
+      );
+
   factory Control.textField({
     required String key,
     String? title,
@@ -298,8 +314,9 @@ class Control extends ChangeNotifier {
     condition,
     String? defaultValue,
     TextInputType? keyboardType,
-    // List<InputValidator<String>>? validators,
+    FormFieldValidator<String>? validator,
     bool isRequired = false,
+    Widget? prefixIcon,
   }) =>
       Control(
         description: description,
@@ -311,8 +328,9 @@ class Control extends ChangeNotifier {
         condition: condition,
         value: defaultValue,
         keyboardType: keyboardType,
-        // validators: validators,
+        validator: validator,
         isRequired: isRequired,
+        prefixIcon: prefixIcon,
       );
 
   /// The condition has to be either a String or a bool.
@@ -364,11 +382,13 @@ class Control extends ChangeNotifier {
 
   /// Fields can be validated by one or multiple validators with custom error
   /// messages. (used for textFields)
-  // List<InputValidator<String>>? validators;
+  FormFieldValidator<String>? validator;
 
   /// Specify if the field is required when shown on registration pages
   /// (used for textFields)
   bool isRequired;
+
+  Widget? prefixIcon;
 
   void change(value) {
     onChange?.call(value);
@@ -379,9 +399,12 @@ class Control extends ChangeNotifier {
     if (value is Map) {
       if ((value as Map).containsKey('selected-start') &&
           (value as Map).containsKey('selected-end')) {
-        return <DateTime>[value['selected-start'], value['selected-end']];
+        return <DateTime>[
+          (value as Map)['selected-start'],
+          (value as Map)['selected-end'],
+        ];
       } else {
-        return value['selected'];
+        return (value as Map)['selected'];
       }
     } else {
       return value;
@@ -392,10 +415,10 @@ class Control extends ChangeNotifier {
     if (value is Map) {
       if ((value as Map).containsKey('selected-start') &&
           (value as Map).containsKey('selected-end')) {
-        value['selected-start'] = null;
-        value['selected-end'] = null;
+        (value as Map)['selected-start'] = null;
+        (value as Map)['selected-end'] = null;
       } else {
-        value['selected'] = null;
+        (value as Map)['selected'] = null;
       }
     } else {
       value = null;

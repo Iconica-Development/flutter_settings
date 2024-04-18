@@ -26,8 +26,9 @@ class SettingsService {
           .where((event) => event.key == key)
           .map((event) => event.getValue());
     } else {
-      throw 'Expected a control of key $key to exist but no control has been '
-          'found to listen to!';
+      throw Exception(
+          'Expected a control of key $key to exist but no control has been '
+          'found to listen to!');
     }
   }
 
@@ -39,10 +40,11 @@ class SettingsService {
           s.value = prefs.getBool(s.key) ?? s.value;
 
         case ControlType.dropDown:
-          s.value['selected'] = prefs.getInt(s.key) ?? s.value['selected'];
+          (s.value as Map)['selected'] =
+              prefs.getInt(s.key) ?? (s.value as Map)['selected'];
 
-        case ControlType.radio:
-          s.value['selected'] = prefs.getInt(s.key) ?? s.value['selected'];
+        // case ControlType.radio:
+        //   s.value['selected'] = prefs.getInt(s.key) ?? s.value['selected'];
 
         case ControlType.toggle:
           s.value = prefs.getBool(s.key) ?? s.value;
@@ -50,30 +52,33 @@ class SettingsService {
         case ControlType.textField:
           s.value = prefs.getString(s.key) ?? s.value;
 
-        case ControlType.range:
-          s.value['selected'] = prefs.getDouble(s.key) ?? s.value['selected'];
+        // case ControlType.range:
+        // s.value['selected'] = prefs.getDouble(s.key) ?? s.value['selected'];
 
         case ControlType.number:
-          s.value['selected'] = prefs.getDouble(s.key) ?? s.value['selected'];
+          (s.value as Map)['selected'] =
+              prefs.getInt(s.key) ?? (s.value as Map)['selected'];
 
         case ControlType.date:
-          s.value['selected'] = (prefs.getInt(s.key) != null)
+          (s.value as Map)['selected'] = (prefs.getInt(s.key) != null)
               ? DateTime.fromMillisecondsSinceEpoch(prefs.getInt(s.key)!)
-              : s.value['selected'];
+              : (s.value as Map)['selected'];
 
         case ControlType.time:
           if (prefs.getString(s.key) != null) {
             var values = prefs.getString(s.key)!.split(':');
             s.value = TimeOfDay(
-                hour: int.parse(values[0]), minute: int.parse(values[1]));
+              hour: int.parse(values[0]),
+              minute: int.parse(values[1]),
+            );
           }
 
         case ControlType.dateRange:
           if (prefs.getString(s.key) != null) {
             var values = prefs.getString(s.key)!.split(':');
-            s.value['selected-start'] =
+            (s.value as Map)['selected-start'] =
                 DateTime.fromMillisecondsSinceEpoch(int.parse(values[0]));
-            s.value['selected-end'] =
+            (s.value as Map)['selected-end'] =
                 DateTime.fromMillisecondsSinceEpoch(int.parse(values[1]));
           }
 
@@ -111,11 +116,11 @@ class SettingsService {
           if ((s.value as Map).containsKey('selected-start') &&
               (s.value as Map).containsKey('selected-end')) {
             return DateTimeRange(
-              start: s.value['selected-start'],
-              end: s.value['selected-end'],
+              start: (s.value as Map)['selected-start'],
+              end: (s.value as Map)['selected-end'],
             );
           } else {
-            return s.value['selected'];
+            return (s.value as Map)['selected'];
           }
         }
         return s.value;

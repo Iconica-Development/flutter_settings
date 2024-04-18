@@ -22,7 +22,11 @@ dependencies:
   flutter_input_library:
     git:
       url: https://github.com/Iconica-Development/flutter_input_library
-      ref: 3.1.0
+      ref: 3.2.1
+
+dependency_overrides:
+  flutter_input_library:
+    path: ../flutter_input_library
 
 dev_dependencies:
   flutter_test:
