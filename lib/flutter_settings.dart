@@ -1,7 +1,10 @@
+/// A package to set custom values in Shared Preferrences in a screen with
+/// provided input fields.
 library flutter_settings;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'package:flutter_input_library/flutter_input_library.dart';
+export 'package:flutter_profile/flutter_profile.dart';
+
+export 'src/ui/control.dart';
+export 'src/ui/device.dart';
+export 'src/ui/page.dart';

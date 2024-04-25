@@ -1,3 +1,7 @@
-## 0.0.1
+## 2.0.0
 
-* TODO: Describe initial release.
+* Initial implementation of the original Appshell Settings
+
+## 1.0.0
+
+* Initial release
