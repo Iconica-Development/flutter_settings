@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_input_library/flutter_input_library.dart';
 import 'package:flutter_settings/flutter_settings.dart';
 import 'package:intl/intl.dart';
 
@@ -30,10 +29,6 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
       _inputFieldBuilder(context, widget.index);
 
   Widget _inputFieldBuilder(BuildContext context, int index) {
-    if (!_checkCondition(widget.settings[index])!) {
-      return const SizedBox.shrink();
-    }
-
     if (widget.settings[index].content != null) {
       return _addControlWrapper(
         context,
@@ -121,22 +116,24 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
           partOfGroup: partOfGroup,
         );
 
-      // case ControlType.radio:
-      //   return _addConstraints(
-      //     SizedBox.shrink(),
-      //     // context.appShell().config.appTheme.inputs.radio<int>(
-      //     //       value: setting.value['selected'],
-      //     //       entries: (setting.value['options'] as List<String>).asMap(),
-      //     //       title: setting.title,
-      //     //       description: setting.description,
-      //     //       onChange: (value, valid) {
-      //     //         if (valid) {
-      //     //           setting.onChange?.call(value);
-      //     //           widget.onUpdate(() => setting.value['selected'] = value);
-      //     //         }
-      //     //       },
-      //     //     ),
-      //   );
+      case ControlType.radio:
+        return _addControlWrapper(
+          context,
+          FlutterFormInputRadioPicker(
+            items: (setting.value as Map)['items'],
+            initialValue: (setting.value as Map)['selected'],
+            onChanged: (value) {
+              if (value != null) {
+                setting.onChange?.call(value.value);
+                widget.onUpdate(
+                  () => (setting.value as Map)['selected'] = value.value,
+                );
+              }
+            },
+          ),
+          setting,
+          partOfGroup: partOfGroup,
+        );
 
       case ControlType.textField:
         return _addControlWrapper(
@@ -161,6 +158,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
                 setting.onChange?.call(value);
                 widget.onUpdate(() => setting.value = value);
               },
+              formatInputs: setting.formatInputs,
             ),
           ),
           setting,
@@ -195,25 +193,6 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
           setting,
           partOfGroup: partOfGroup,
         );
-
-      // case ControlType.range:
-      //   return _addConstraints(
-      //     SizedBox.shrink()
-      //     // context.appShell().config.appTheme.inputs.range(
-      //     //       value: setting.value['selected'],
-      //     //       min: setting.value['min'],
-      //     //       max: setting.value['max'],
-      //     //       step: setting.value['step'],
-      //     //       title: setting.title,
-      //     //       description: setting.description,
-      //     //       onChange: (value, valid) {
-      //     //         if (valid) {
-      //     //           setting.onChange?.call(value);
-      //     //           widget.onUpdate(() => setting.value['selected'] = value);
-      //     //         }
-      //     //       },
-      //     //     ),
-      //   );
 
       case ControlType.number:
         return _addControlWrapper(
@@ -453,40 +432,5 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
         ],
       ),
     );
-  }
-
-  Control? _findSetting(List<Control>? settings, Control target) {
-    if (target.condition == null) {
-      return null;
-    }
-
-    for (var s in settings!) {
-      if (s.key == target.condition) {
-        return s;
-      }
-
-      if (s.settings != null) {
-        var result = _findSetting(s.settings, target);
-
-        if (result != null) {
-          return result;
-        }
-      }
-    }
-
-    return null;
-  }
-
-  bool? _checkCondition(Control target) {
-    if (target.condition is String) {
-      var src = _findSetting(widget.settings, target);
-      if (src != null && src.value != null) {
-        return src.value;
-      }
-    } else if (target.condition is bool) {
-      return target.condition;
-    }
-
-    return true;
   }
 }

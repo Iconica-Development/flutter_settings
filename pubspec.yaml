@@ -1,6 +1,6 @@
 name: flutter_settings
 description: "Iconica Flutter Settings component"
-version: 1.0.0
+version: 2.0.0
 
 publish_to: "none"
 
@@ -22,11 +22,13 @@ dependencies:
   flutter_input_library:
     git:
       url: https://github.com/Iconica-Development/flutter_input_library
-      ref: 3.2.1
+      ref: 3.3.0
 
 dependency_overrides:
   flutter_input_library:
-    path: ../flutter_input_library
+    git:
+      url: https://github.com/Iconica-Development/flutter_input_library
+      ref: 3.3.0
 
 dev_dependencies:
   flutter_test:

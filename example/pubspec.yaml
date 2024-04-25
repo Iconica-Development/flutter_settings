@@ -36,7 +36,9 @@ dependencies:
 
 dependency_overrides:
   flutter_input_library:
-    path: ../../flutter_input_library   
+    git:
+      url: https://github.com/Iconica-Development/flutter_input_library
+      ref: 3.3.0
 
 
   # The following adds the Cupertino Icons font to your application.

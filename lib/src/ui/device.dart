@@ -39,15 +39,15 @@ class _DeviceSettingPageState extends SettingsPageState<DeviceSettingsPage> {
           if ((s.value as Map)['selected'] != null)
             await prefs.setString(s.key, (s.value as Map)['selected']);
 
-        // case ControlType.radio:
-        //   if (s.value['selected'] != null)
-        //     await prefs.setInt(s.key, s.value['selected']);
+        case ControlType.radio:
+          if ((s.value as Map)['selected'] != null)
+            await prefs.setString(
+              s.key,
+              (s.value as Map)['selected'],
+            );
 
         case ControlType.toggle:
           await prefs.setBool(s.key, s.value);
-
-        // case ControlType.range:
-        //   await prefs.setDouble(s.key, s.value['selected']);
 
         case ControlType.textField:
           await prefs.setString(s.key, s.value ?? '');
@@ -92,8 +92,9 @@ class _DeviceSettingPageState extends SettingsPageState<DeviceSettingsPage> {
           (s.value as Map)['selected'] =
               prefs.getString(s.key) ?? (s.value as Map)['selected'];
 
-        // case ControlType.radio:
-        //   s.value['selected'] = prefs.getInt(s.key) ?? s.value['selected'];
+        case ControlType.radio:
+          (s.value as Map)['selected'] =
+              prefs.getString(s.key) ?? (s.value as Map)['selected'];
 
         case ControlType.toggle:
           s.value = prefs.getBool(s.key) ?? s.value;
@@ -101,12 +102,9 @@ class _DeviceSettingPageState extends SettingsPageState<DeviceSettingsPage> {
         case ControlType.textField:
           s.value = prefs.getString(s.key) ?? s.value;
 
-        // case ControlType.range:
-        // s.value['selected'] = prefs.getDouble(s.key) ?? s.value['selected'];
-
         case ControlType.number:
-          (s.value as Map)['selected'] = prefs.getInt(s.key) ??
-              (s.value as Map)['selected'];
+          (s.value as Map)['selected'] =
+              prefs.getInt(s.key) ?? (s.value as Map)['selected'];
 
         case ControlType.date:
           (s.value as Map)['selected'] = (prefs.getInt(s.key) != null)

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_settings/flutter_settings.dart';
 
 void main() {
@@ -64,19 +65,58 @@ class Settings extends StatelessWidget {
                       description: 'Dropdown description',
                       prefixIcon: const Icon(Icons.settings),
                     ),
-
+                    Control.radio(
+                      key: 'dropdown',
+                      items: [
+                        const RadioItem<String>(
+                          value: 'Item1',
+                          child: Text('item1'),
+                        ),
+                        const RadioItem<String>(
+                          value: 'Item2',
+                          child: Text('item2'),
+                        ),
+                        const RadioItem<String>(
+                          value: 'Item3',
+                          child: Text('item3'),
+                        ),
+                      ],
+                      title: 'Dropdown',
+                      description: 'Dropdown description',
+                      prefixIcon: const Icon(Icons.settings),
+                    ),
                     Control.number(
                       key: 'number',
                       title: 'Number',
                       description: 'Number description',
                       prefixIcon: const Icon(Icons.settings),
                     ),
-
                     Control.textField(
                       key: 'textfield',
                       title: 'Textfield',
                       description: 'Textfield description',
                       prefixIcon: const Icon(Icons.settings),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Field can't be empty";
+                        }
+
+                        return null;
+                      },
+                    ),
+                    Control.textField(
+                      key: 'numberfield',
+                      title: 'Numberfield',
+                      prefixIcon: const Icon(Icons.settings),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Field can't be empty";
+                        }
+
+                        return null;
+                      },
+                      keyboardType: TextInputType.number,
+                      formatInputs: [FilteringTextInputFormatter.digitsOnly],
                     ),
                     Control.page(
                       controls: [
@@ -122,11 +162,6 @@ class Settings extends StatelessWidget {
                         ),
                       ],
                     ),
-
-                    //TODO: implement Custom
-                    //TODO: implement range
-                    //TODO: implement radio
-                    //TODO: Implement number double
                   ],
                 ),
               ),
