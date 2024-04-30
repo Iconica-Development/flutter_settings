@@ -1,6 +1,6 @@
 name: flutter_settings
 description: "Iconica Flutter Settings component"
-version: 2.0.0
+version: 2.0.1
 
 publish_to: "none"
 
@@ -18,13 +18,7 @@ dependencies:
   flutter_profile:
     git:
       url: https://github.com/Iconica-Development/flutter_profile
-      ref: 1.3.0
-  flutter_input_library:
-    git:
-      url: https://github.com/Iconica-Development/flutter_input_library
-      ref: 3.3.0
-
-dependency_overrides:
+      ref: 1.4.1
   flutter_input_library:
     git:
       url: https://github.com/Iconica-Development/flutter_input_library
