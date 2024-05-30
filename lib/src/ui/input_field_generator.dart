@@ -42,9 +42,8 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
 
   Widget _buildInputFieldFromControlSetting(
     BuildContext context,
-    Control setting, {
-    bool partOfGroup = false,
-  }) {
+    Control setting,
+  ) {
     switch (setting.type) {
       case ControlType.group:
         return _addGroupWrapper(
@@ -56,7 +55,6 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
                 (int i) => _buildInputFieldFromControlSetting(
                   context,
                   setting.settings![i],
-                  partOfGroup: true,
                 ),
               ),
             ],
@@ -65,7 +63,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
         );
 
       case ControlType.page:
-        return _addControlWrapper(
+        return _addPageControlWrapper(
           context,
           IconButton(
             onPressed: () async {
@@ -90,13 +88,13 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
             icon: const Icon(Icons.chevron_right),
           ),
           setting,
-          partOfGroup: partOfGroup,
         );
 
       case ControlType.dropDown:
         return _addControlWrapper(
           context,
-          DropdownButton<String>(
+          DropdownButtonFormField<String>(
+            isExpanded: true,
             items: ((setting.value as Map)['items'] as List<String>)
                 .map(
                   (e) => DropdownMenuItem(
@@ -106,14 +104,46 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
                 )
                 .toList(),
             onChanged: (value) {
-              setting.onChange?.call(value);
+              setting.onChange?.call({setting.key: value});
               widget.onUpdate(() => (setting.value as Map)['selected'] = value);
             },
             value: (setting.value as Map)['selected'],
             hint: Text(setting.title ?? ''),
+            decoration: setting.decoration ??
+                InputDecoration(
+                  suffixIcon: setting.suffixIcon,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Colors.white,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Colors.red,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Colors.red,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Colors.white,
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+            validator: setting.validator,
           ),
           setting,
-          partOfGroup: partOfGroup,
         );
 
       case ControlType.radio:
@@ -132,7 +162,6 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
             },
           ),
           setting,
-          partOfGroup: partOfGroup,
         );
 
       case ControlType.textField:
@@ -141,37 +170,48 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
           Container(
             constraints: const BoxConstraints(maxWidth: 250),
             child: FlutterFormInputPlainText(
-              decoration: const InputDecoration(
-                isDense: true,
-              ),
+              maxLines: setting.maxLines ?? 1,
               initialValue: setting.value ?? '',
-              label: Text(
-                (setting.title != null)
-                    ? setting.isRequired
-                        ? '${setting.title}*'
-                        : setting.title ?? ''
-                    : '',
-              ),
               validator: setting.validator,
               keyboardType: setting.keyboardType,
               onChanged: (value) {
-                setting.onChange?.call(value);
+                setting.onChange?.call({setting.key: value});
                 widget.onUpdate(() => setting.value = value);
               },
               formatInputs: setting.formatInputs,
+              decoration: setting.decoration ??
+                  InputDecoration(
+                    suffixIcon: setting.suffixIcon,
+                    labelText: (setting.title != null)
+                        ? setting.isRequired
+                            ? '${setting.title}*'
+                            : setting.title ?? ''
+                        : '',
+                    suffixIconColor: Colors.black,
+                    labelStyle: TextStyle(
+                      color: Theme.of(context).textTheme.labelMedium?.color,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: UnderlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+              style: TextStyle(
+                color: Theme.of(context).textTheme.labelMedium?.color,
+              ),
             ),
           ),
           setting,
-          partOfGroup: partOfGroup,
         );
 
       case ControlType.toggle:
-        return _addControlWrapper(
+        return _addBoolControlWrapper(
           context,
           FlutterFormInputBool(
             widgetType: BoolWidgetType.switchWidget,
             onChanged: (value) {
-              setting.onChange?.call(value);
+              setting.onChange?.call({setting.key: value});
               widget.onUpdate(() => setting.value = value);
             },
             initialValue: setting.value,
@@ -180,18 +220,17 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
         );
 
       case ControlType.checkBox:
-        return _addControlWrapper(
+        return _addBoolControlWrapper(
           context,
           FlutterFormInputBool(
             widgetType: BoolWidgetType.checkbox,
             onChanged: (value) {
-              setting.onChange?.call(value);
+              setting.onChange?.call({setting.key: value});
               widget.onUpdate(() => setting.value = value);
             },
             initialValue: setting.value,
           ),
           setting,
-          partOfGroup: partOfGroup,
         );
 
       case ControlType.number:
@@ -200,7 +239,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
           FlutterFormInputNumberPicker(
             onChanged: (value) {
               if (value != null) {
-                setting.onChange?.call(value);
+                setting.onChange?.call({setting.key: value});
                 widget.onUpdate(
                   () => (setting.value as Map)['selected'] = value,
                 );
@@ -212,7 +251,6 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
             axis: Axis.horizontal,
           ),
           setting,
-          partOfGroup: partOfGroup,
         );
 
       case ControlType.date:
@@ -223,9 +261,23 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
           Container(
             constraints: const BoxConstraints(maxWidth: 250),
             child: FlutterFormInputDateTime(
-              decoration: const InputDecoration(
-                isDense: true,
+              style: TextStyle(
+                color: Theme.of(context).textTheme.labelMedium?.color,
               ),
+              decoration: setting.decoration ??
+                  InputDecoration(
+                    suffixIcon: setting.suffixIcon,
+                    suffixIconColor: Colors.black,
+                    labelText: setting.title ?? '',
+                    labelStyle: TextStyle(
+                      color: Theme.of(context).textTheme.labelMedium?.color,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: UnderlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
               inputType: FlutterFormDateTimeType.date,
               dateFormat: dateFormat,
               firstDate: (setting.value as Map)['min'],
@@ -236,16 +288,16 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
               onChanged: (value) {
                 if (value != null) {
                   var date = dateFormat.parse(value);
-                  setting.onChange?.call(date);
+                  setting.onChange?.call({setting.key: date});
                   widget.onUpdate(
                     () => (setting.value as Map)['selected'] = date,
                   );
                 }
               },
+              validator: setting.validator,
             ),
           ),
           setting,
-          partOfGroup: partOfGroup,
         );
 
       case ControlType.time:
@@ -255,9 +307,20 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
           Container(
             constraints: const BoxConstraints(maxWidth: 250),
             child: FlutterFormInputDateTime(
-              decoration: const InputDecoration(
-                isDense: true,
-              ),
+              decoration: setting.decoration ??
+                  InputDecoration(
+                    suffixIcon: setting.suffixIcon,
+                    suffixIconColor: Colors.black,
+                    labelText: setting.title ?? '',
+                    labelStyle: TextStyle(
+                      color: Theme.of(context).textTheme.labelMedium?.color,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: UnderlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
               inputType: FlutterFormDateTimeType.time,
               dateFormat: timeFormat,
               initialTime: setting.value ?? TimeOfDay.now(),
@@ -272,14 +335,13 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
                     hour: int.parse(split[0]),
                     minute: int.parse(split[1]),
                   );
-                  setting.onChange?.call(time);
+                  setting.onChange?.call({setting.key: time});
                   widget.onUpdate(() => setting.value = time);
                 }
               },
             ),
           ),
           setting,
-          partOfGroup: partOfGroup,
         );
 
       case ControlType.dateRange:
@@ -299,9 +361,20 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
           Container(
             constraints: const BoxConstraints(maxWidth: 250),
             child: FlutterFormInputDateTime(
-              decoration: const InputDecoration(
-                isDense: true,
-              ),
+              decoration: setting.decoration ??
+                  InputDecoration(
+                    suffixIcon: setting.suffixIcon,
+                    suffixIconColor: Colors.black,
+                    labelText: setting.title ?? '',
+                    labelStyle: TextStyle(
+                      color: Theme.of(context).textTheme.labelMedium?.color,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: UnderlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
               inputType: FlutterFormDateTimeType.range,
               dateFormat: dateFormat,
               firstDate: (setting.value as Map)['min'],
@@ -313,7 +386,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
                   var start = split[0];
                   var end = split[2];
 
-                  setting.onChange?.call(value);
+                  setting.onChange?.call({setting.key: value});
                   widget.onUpdate(() {
                     (setting.value as Map)['selected-start'] =
                         dateFormat.parse(start);
@@ -325,7 +398,6 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
             ),
           ),
           setting,
-          partOfGroup: partOfGroup,
         );
 
       default:
@@ -342,49 +414,40 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
       return widget.groupWrapper!.call(child, setting);
     }
 
-    var theme = Theme.of(context);
-
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      padding: const EdgeInsets.only(left: 8),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            setting.title!,
-            style: theme.textTheme.titleLarge,
-          ),
-          child,
-        ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Container(
+        decoration: setting.boxDecoration ??
+            BoxDecoration(
+              border: Border.all(
+                width: 2,
+                color: Colors.white,
+              ),
+              borderRadius: BorderRadius.circular(10),
+            ),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            child,
+          ],
+        ),
       ),
     );
   }
 
-  Widget _addControlWrapper(
+  Widget _addPageControlWrapper(
     BuildContext context,
     Widget child,
-    Control setting, {
-    bool partOfGroup = false,
-  }) {
+    Control setting,
+  ) {
     if (widget.controlWrapper != null) {
       return widget.controlWrapper!.call(child, setting);
     }
-
     var theme = Theme.of(context);
-
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
-      decoration: BoxDecoration(
-        color: partOfGroup ? Colors.grey.shade100 : Colors.transparent,
-        border: const Border.symmetric(
-          horizontal: BorderSide(
-            width: 0.5,
-            color: Color(0xFFC2C2C2),
-          ),
-        ),
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -398,37 +461,95 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
-                    width: 32,
-                    height: 32,
-                    child: setting.prefixIcon,
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (setting.title != null) ...[
+                      if (setting.title != null)
                         Text(
                           setting.title!,
                           style: theme.textTheme.titleMedium,
                         ),
-                      ],
-                      if (setting.description != null) ...[
+                      if (setting.description != null)
                         Text(
                           setting.description!,
                           style: theme.textTheme.titleSmall,
                         ),
-                      ],
                     ],
                   ),
+                  child,
                 ],
               ),
-              child,
             ],
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _addControlWrapper(
+    BuildContext context,
+    Widget child,
+    Control setting,
+  ) {
+    if (widget.controlWrapper != null) {
+      return widget.controlWrapper!.call(child, setting);
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          child,
+          if (setting.description != null) ...[
+            const SizedBox(
+              height: 8,
+            ),
+            Text(
+              setting.description!,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _addBoolControlWrapper(
+    BuildContext context,
+    Widget child,
+    Control setting,
+  ) {
+    if (widget.controlWrapper != null) {
+      return widget.controlWrapper!.call(child, setting);
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              child,
+              const SizedBox(
+                width: 4,
+              ),
+              Text(setting.title ?? ''),
+            ],
+          ),
+          if (setting.description != null) ...[
+            const SizedBox(
+              height: 8,
+            ),
+            Text(
+              setting.description!,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ],
         ],
       ),
     );

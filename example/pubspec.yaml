@@ -34,13 +34,6 @@ dependencies:
   flutter_settings:
     path: ../  
 
-dependency_overrides:
-  flutter_input_library:
-    git:
-      url: https://github.com/Iconica-Development/flutter_input_library
-      ref: 3.3.0
-
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
