@@ -58,12 +58,12 @@ class Settings extends StatelessWidget {
                 decoration: BoxDecoration(border: Border.all()),
                 child: DeviceSettingsPage(
                   settings: [
+                    
                     Control.dropDown(
                       key: 'dropdown',
                       items: ['Item1', 'Item2', 'Item3'],
                       title: 'Dropdown',
-                      description: 'Dropdown description',
-                      prefixIcon: const Icon(Icons.settings),
+                      suffixIcon: const Icon(Icons.settings),
                     ),
                     Control.radio(
                       key: 'dropdown',
@@ -82,20 +82,15 @@ class Settings extends StatelessWidget {
                         ),
                       ],
                       title: 'Dropdown',
-                      description: 'Dropdown description',
-                      prefixIcon: const Icon(Icons.settings),
                     ),
                     Control.number(
                       key: 'number',
                       title: 'Number',
-                      description: 'Number description',
-                      prefixIcon: const Icon(Icons.settings),
                     ),
                     Control.textField(
                       key: 'textfield',
                       title: 'Textfield',
-                      description: 'Textfield description',
-                      prefixIcon: const Icon(Icons.settings),
+                      suffixIcon: const Icon(Icons.settings),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Field can't be empty";
@@ -107,7 +102,7 @@ class Settings extends StatelessWidget {
                     Control.textField(
                       key: 'numberfield',
                       title: 'Numberfield',
-                      prefixIcon: const Icon(Icons.settings),
+                      suffixIcon: const Icon(Icons.settings),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Field can't be empty";
@@ -123,12 +118,10 @@ class Settings extends StatelessWidget {
                         Control.toggle(
                           key: 'toggle',
                           title: 'Toggle',
-                          prefixIcon: const Icon(Icons.settings),
                         ),
                         Control.checkBox(
                           key: 'checkbox',
                           title: 'Checkbox',
-                          prefixIcon: const Icon(Icons.settings),
                         ),
                       ],
                       title: 'Bool page',
@@ -146,19 +139,18 @@ class Settings extends StatelessWidget {
                           ),
                           value: DateTime.now(),
                           title: 'Date',
-                          prefixIcon: const Icon(Icons.settings),
+                          suffixIcon: const Icon(Icons.settings),
                         ),
                         Control.time(
                           key: 'time',
                           value: TimeOfDay.now(),
                           title: 'Time',
-                          description: 'Time description',
-                          prefixIcon: const Icon(Icons.settings),
+                          suffixIcon: const Icon(Icons.settings),
                         ),
                         Control.dateRange(
                           key: 'dateRange',
                           title: 'Date range',
-                          prefixIcon: const Icon(Icons.settings),
+                          suffixIcon: const Icon(Icons.settings),
                         ),
                       ],
                     ),

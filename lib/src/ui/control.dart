@@ -39,7 +39,6 @@ class Control extends ChangeNotifier {
     required this.key,
     required this.type,
     this.content,
-    this.description,
     this.onChange,
     this.settings,
     this.title,
@@ -47,50 +46,61 @@ class Control extends ChangeNotifier {
     this.keyboardType,
     this.validator,
     this.isRequired = true,
-    this.prefixIcon,
+    this.suffixIcon,
     this.formatInputs,
+    this.decoration,
+    this.maxLines,
+    this.description,
+    this.boxDecoration,
   });
+
+  factory Control.custom({
+    required String key,
+    Widget? content,
+  }) =>
+      Control(
+        key: key,
+        type: ControlType.custom,
+        content: content,
+      );
 
   factory Control.page({
     required List<Control> controls,
     required String title,
-    Widget? prefixIcon,
+    String? description,
   }) =>
       Control(
         type: ControlType.page,
         key: 'page_$title',
         title: title,
         settings: controls,
-        prefixIcon: prefixIcon,
+        description: description,
       );
 
   factory Control.radio({
     required List<RadioItem<String>> items,
     required String key,
-    String? description,
     String? title,
     String? selected,
     void Function(dynamic)? onChange,
-    Widget? prefixIcon,
   }) =>
       Control(
         value: {'items': items, 'selected': selected},
         type: ControlType.radio,
         title: title,
-        description: description,
         onChange: onChange,
         key: key,
-        prefixIcon: prefixIcon,
       );
 
   factory Control.dropDown({
     required List<String> items,
     required String key,
-    String? description,
     String? title,
     int? selected,
-    void Function(dynamic value)? onChange,
-    Widget? prefixIcon,
+    void Function(Map<String, dynamic>)? onChange,
+    Widget? suffixIcon,
+    String? Function(String?)? validator,
+    String? description,
   }) {
     if (selected != null) {
       assert(selected < items.length, 'Selected exceeds item length');
@@ -100,63 +110,63 @@ class Control extends ChangeNotifier {
       value: {'items': items, 'selected': selected},
       type: ControlType.dropDown,
       title: title,
-      description: description,
-      onChange: onChange,
+      onChange: (value) {
+        onChange?.call(value);
+      },
       key: key,
-      prefixIcon: prefixIcon,
+      suffixIcon: suffixIcon,
+      validator: validator,
+      description: description,
     );
   }
 
   factory Control.toggle({
     required String key,
-    String? description,
     String? title,
-    void Function(dynamic)? onChange,
+    void Function(Map<String, dynamic>)? onChange,
     bool? value,
-    Widget? prefixIcon,
+    String? description,
   }) =>
       Control(
         title: title ?? '',
-        description: description,
         value: value ?? false,
-        onChange: onChange,
+        onChange: (value) {
+          onChange?.call(value);
+        },
         key: key,
         type: ControlType.toggle,
-        prefixIcon: prefixIcon,
+        description: description,
       );
 
   factory Control.checkBox({
     required String key,
-    String? description,
     String? title,
     void Function(dynamic)? onChange,
     bool? value,
-    Widget? prefixIcon,
   }) =>
       Control(
         title: title ?? '',
-        description: description,
         value: value ?? false,
-        onChange: onChange,
+        onChange: (value) {
+          onChange?.call(value);
+        },
         key: key,
         type: ControlType.checkBox,
-        prefixIcon: prefixIcon,
       );
 
   factory Control.number({
     required String key,
-    String? description,
     String? title,
     void Function(dynamic)? onChange,
     int? value,
     int? max,
     int? min,
-    Widget? prefixIcon,
   }) =>
       Control(
         title: title ?? '',
-        description: description ?? '',
-        onChange: onChange,
+        onChange: (value) {
+          onChange?.call(value);
+        },
         key: key,
         type: ControlType.number,
         value: <String, int>{
@@ -164,25 +174,26 @@ class Control extends ChangeNotifier {
           'min': min ?? 0,
           'max': max ?? 10,
         },
-        prefixIcon: prefixIcon,
       );
 
   factory Control.date({
     required String key,
     String? title,
-    String? description,
     void Function(dynamic)? onChange,
     DateTime? value,
     DateTime? min,
     DateTime? max,
-    Widget? prefixIcon,
+    Widget? suffixIcon,
+    String? Function(String?)? validator,
+    String? description,
   }) =>
       Control(
         key: key,
         type: ControlType.date,
         title: title,
-        description: description,
-        onChange: onChange,
+        onChange: (value) {
+          onChange?.call(value);
+        },
         value: <String, DateTime?>{
           'selected': value ?? DateTime.now(),
           'min': min ?? value ?? DateTime.now(),
@@ -191,43 +202,48 @@ class Control extends ChangeNotifier {
                 const Duration(days: 365),
               ),
         },
-        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
+        validator: validator,
+        description: description,
       );
 
   factory Control.time({
     required String key,
     String? title,
-    String? description,
     void Function(dynamic)? onChange,
     TimeOfDay? value,
-    Widget? prefixIcon,
+    Widget? suffixIcon,
+    String? description,
   }) =>
       Control(
         key: key,
         type: ControlType.time,
         title: title,
-        description: description,
-        onChange: onChange,
+        onChange: (value) {
+          onChange?.call(value);
+        },
         value: value ?? TimeOfDay.now(),
-        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
+        description: description,
       );
 
   factory Control.dateRange({
     required String key,
     String? title,
-    String? description,
     void Function(dynamic)? onChange,
     DateTimeRange? value,
     DateTime? min,
     DateTime? max,
-    Widget? prefixIcon,
+    Widget? suffixIcon,
+    String? description,
   }) =>
       Control(
         key: key,
         type: ControlType.dateRange,
         title: title,
-        description: description,
-        onChange: onChange,
+        onChange: (value) {
+          onChange?.call(value);
+        },
         value: <String, DateTime?>{
           'selected-start': value?.start ?? DateTime.now(),
           'selected-end':
@@ -237,48 +253,55 @@ class Control extends ChangeNotifier {
               (min ?? value?.start ?? DateTime.now())
                   .add(const Duration(days: 365)),
         },
-        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
+        description: description,
       );
 
   factory Control.group({
     required List<Control> settings,
     String? title,
-    Widget? prefixIcon,
+    BoxDecoration? boxDecoration,
   }) =>
       Control(
         type: ControlType.group,
         key: 'group_$title',
         settings: settings,
         title: title,
-        prefixIcon: prefixIcon,
+        boxDecoration: boxDecoration,
       );
 
   factory Control.textField({
     required String key,
     String? title,
-    String? description,
     Widget? content,
     void Function(dynamic)? onChange,
     String? defaultValue,
     TextInputType? keyboardType,
     FormFieldValidator<String>? validator,
     bool isRequired = false,
-    Widget? prefixIcon,
+    Widget? suffixIcon,
     List<TextInputFormatter>? formatInputs,
+    InputDecoration? decoration,
+    int? maxLines,
+    String? description,
   }) =>
       Control(
-        description: description,
         title: title ?? '',
         type: ControlType.textField,
         key: key,
         content: content,
-        onChange: onChange,
+        onChange: (value) {
+          onChange?.call(value);
+        },
         value: defaultValue,
         keyboardType: keyboardType,
         validator: validator,
         isRequired: isRequired,
-        prefixIcon: prefixIcon,
         formatInputs: formatInputs,
+        decoration: decoration,
+        suffixIcon: suffixIcon,
+        maxLines: maxLines,
+        description: description,
       );
 
   /// The value is the defaultvalue along with the items or options depending on
@@ -292,7 +315,7 @@ class Control extends ChangeNotifier {
   dynamic value;
 
   /// This method is invoked everytime the user changes the setting
-  void Function(dynamic)? onChange;
+  void Function(Map<String, dynamic>)? onChange;
 
   /// The settings is a List containing the Controls that are shown grouped
   /// together inside a Container. The settings should only be used if the
@@ -301,9 +324,6 @@ class Control extends ChangeNotifier {
 
   /// The type is the type of Control. To see all the options see ControlType.
   ControlType type;
-
-  /// The description is shown next to the setting
-  String? description;
 
   /// The key is used to store the value in the shared preferences
   ///
@@ -332,12 +352,23 @@ class Control extends ChangeNotifier {
   bool isRequired;
 
   /// The Widget that is shown on the left side of the input.
-  Widget? prefixIcon;
+  Widget? suffixIcon;
 
   /// Input formatters to limit input.
   ///
   /// (used for textFields)
   List<TextInputFormatter>? formatInputs;
+
+  /// The decoration of the input field
+  InputDecoration? decoration;
+
+  /// The maximum amount of lines the textfield should have
+  int? maxLines;
+
+  /// The description is shown below the title
+  String? description;
+
+  BoxDecoration? boxDecoration;
 
   void change(value) {
     onChange?.call(value);
