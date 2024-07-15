@@ -1,3 +1,9 @@
+## 4.0.0
+
+* Added theme to text components
+* Changed default `ControlWrapper` design
+
+
 ## 3.0.0
 
 * added onChange callback to the settings widgets

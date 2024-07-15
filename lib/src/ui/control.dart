@@ -52,6 +52,11 @@ class Control extends ChangeNotifier {
     this.maxLines,
     this.description,
     this.boxDecoration,
+    this.prefixIcon,
+    this.partOfGroup = false,
+    this.isLastSettingInGroup = false,
+    this.hintText,
+    this.initialValue,
   });
 
   factory Control.custom({
@@ -68,6 +73,7 @@ class Control extends ChangeNotifier {
     required List<Control> controls,
     required String title,
     String? description,
+    Icon? preficIcon,
   }) =>
       Control(
         type: ControlType.page,
@@ -75,6 +81,7 @@ class Control extends ChangeNotifier {
         title: title,
         settings: controls,
         description: description,
+        prefixIcon: preficIcon,
       );
 
   factory Control.radio({
@@ -83,6 +90,7 @@ class Control extends ChangeNotifier {
     String? title,
     String? selected,
     void Function(dynamic)? onChange,
+    String? description,
   }) =>
       Control(
         value: {'items': items, 'selected': selected},
@@ -90,6 +98,7 @@ class Control extends ChangeNotifier {
         title: title,
         onChange: onChange,
         key: key,
+        description: description,
       );
 
   factory Control.dropDown({
@@ -101,6 +110,7 @@ class Control extends ChangeNotifier {
     Widget? suffixIcon,
     String? Function(String?)? validator,
     String? description,
+    String? hintText,
   }) {
     if (selected != null) {
       assert(selected < items.length, 'Selected exceeds item length');
@@ -117,6 +127,7 @@ class Control extends ChangeNotifier {
       suffixIcon: suffixIcon,
       validator: validator,
       description: description,
+      hintText: hintText,
     );
   }
 
@@ -126,6 +137,8 @@ class Control extends ChangeNotifier {
     void Function(Map<String, dynamic>)? onChange,
     bool? value,
     String? description,
+    Icon? prefixIcon,
+    bool partOfGroup = false,
   }) =>
       Control(
         title: title ?? '',
@@ -136,6 +149,8 @@ class Control extends ChangeNotifier {
         key: key,
         type: ControlType.toggle,
         description: description,
+        prefixIcon: prefixIcon,
+        partOfGroup: partOfGroup,
       );
 
   factory Control.checkBox({
@@ -143,6 +158,9 @@ class Control extends ChangeNotifier {
     String? title,
     void Function(dynamic)? onChange,
     bool? value,
+    Icon? prefixIcon,
+    String? description,
+    bool partOfGroup = false,
   }) =>
       Control(
         title: title ?? '',
@@ -152,6 +170,9 @@ class Control extends ChangeNotifier {
         },
         key: key,
         type: ControlType.checkBox,
+        prefixIcon: prefixIcon,
+        description: description,
+        partOfGroup: partOfGroup,
       );
 
   factory Control.number({
@@ -275,7 +296,6 @@ class Control extends ChangeNotifier {
     String? title,
     Widget? content,
     void Function(dynamic)? onChange,
-    String? defaultValue,
     TextInputType? keyboardType,
     FormFieldValidator<String>? validator,
     bool isRequired = false,
@@ -284,6 +304,8 @@ class Control extends ChangeNotifier {
     InputDecoration? decoration,
     int? maxLines,
     String? description,
+    String? hintText,
+    String? initialValue,
   }) =>
       Control(
         title: title ?? '',
@@ -293,7 +315,7 @@ class Control extends ChangeNotifier {
         onChange: (value) {
           onChange?.call(value);
         },
-        value: defaultValue,
+        initialValue: initialValue,
         keyboardType: keyboardType,
         validator: validator,
         isRequired: isRequired,
@@ -302,6 +324,7 @@ class Control extends ChangeNotifier {
         suffixIcon: suffixIcon,
         maxLines: maxLines,
         description: description,
+        hintText: hintText,
       );
 
   /// The value is the defaultvalue along with the items or options depending on
@@ -368,7 +391,23 @@ class Control extends ChangeNotifier {
   /// The description is shown below the title
   String? description;
 
+  /// The decoration of the input
   BoxDecoration? boxDecoration;
+
+  /// The icon that is shown on the left side of the input
+  Icon? prefixIcon;
+
+  /// If the Control is part of a group
+  bool partOfGroup;
+
+  /// If the Control is the last setting in a group
+  bool isLastSettingInGroup;
+
+  /// The hint text that is shown in the input field
+  String? hintText;
+
+  /// The initial value of the input field
+  String? initialValue;
 
   void change(value) {
     onChange?.call(value);

@@ -71,22 +71,16 @@ abstract class SettingsPageState<SP extends SettingsPage> extends State<SP> {
         child: CircularProgressIndicator(),
       );
     }
-    return Container(
-      margin: const EdgeInsets.only(
-        left: 10.0,
-        right: 10.0,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: List.generate(
-          widget.settings.length,
-          (index) => InputFieldGenerator(
-            settings: widget.settings,
-            index: index,
-            onUpdate: setState,
-            controlWrapper: widget.controlWrapper,
-            groupWrapper: widget.groupWrapper,
-          ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: List.generate(
+        widget.settings.length,
+        (index) => InputFieldGenerator(
+          settings: widget.settings,
+          index: index,
+          onUpdate: setState,
+          controlWrapper: widget.controlWrapper,
+          groupWrapper: widget.groupWrapper,
         ),
       ),
     );
