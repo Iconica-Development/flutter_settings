@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_settings/flutter_settings.dart';
 
 void main() {
@@ -48,115 +47,90 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return SafeArea(
       child: Scaffold(
         body: Center(
           child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: DecoratedBox(
-                decoration: BoxDecoration(border: Border.all()),
-                child: DeviceSettingsPage(
+            child: DeviceSettingsPage(
+              settings: [
+                Control.group(
+                  title: 'SUBPAGE',
                   settings: [
-                    
-                    Control.dropDown(
-                      key: 'dropdown',
-                      items: ['Item1', 'Item2', 'Item3'],
-                      title: 'Dropdown',
-                      suffixIcon: const Icon(Icons.settings),
-                    ),
-                    Control.radio(
-                      key: 'dropdown',
-                      items: [
-                        const RadioItem<String>(
-                          value: 'Item1',
-                          child: Text('item1'),
-                        ),
-                        const RadioItem<String>(
-                          value: 'Item2',
-                          child: Text('item2'),
-                        ),
-                        const RadioItem<String>(
-                          value: 'Item3',
-                          child: Text('item3'),
-                        ),
-                      ],
-                      title: 'Dropdown',
-                    ),
-                    Control.number(
-                      key: 'number',
-                      title: 'Number',
-                    ),
-                    Control.textField(
-                      key: 'textfield',
-                      title: 'Textfield',
-                      suffixIcon: const Icon(Icons.settings),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Field can't be empty";
-                        }
-
-                        return null;
-                      },
-                    ),
-                    Control.textField(
-                      key: 'numberfield',
-                      title: 'Numberfield',
-                      suffixIcon: const Icon(Icons.settings),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Field can't be empty";
-                        }
-
-                        return null;
-                      },
-                      keyboardType: TextInputType.number,
-                      formatInputs: [FilteringTextInputFormatter.digitsOnly],
+                    Control.page(
+                      controls: pages,
+                      title: 'Item 1',
+                      description: "This is a description",
+                      preficIcon: Icon(
+                        Icons.person_outline,
+                        size: 32,
+                        color: theme.colorScheme.primary,
+                      ),
                     ),
                     Control.page(
-                      controls: [
-                        Control.toggle(
-                          key: 'toggle',
-                          title: 'Toggle',
-                        ),
-                        Control.checkBox(
-                          key: 'checkbox',
-                          title: 'Checkbox',
-                        ),
-                      ],
-                      title: 'Bool page',
+                      controls: pages,
+                      title: 'Setting name',
+                      description: "This is a description",
+                      preficIcon: Icon(
+                        Icons.person_outline,
+                        size: 32,
+                        color: theme.colorScheme.primary,
+                      ),
                     ),
-                    Control.group(
-                      title: 'Group title',
-                      settings: [
-                        Control.date(
-                          key: 'date',
-                          min: DateTime.now().subtract(
-                            const Duration(days: 365),
-                          ),
-                          max: DateTime.now().add(
-                            const Duration(days: 365),
-                          ),
-                          value: DateTime.now(),
-                          title: 'Date',
-                          suffixIcon: const Icon(Icons.settings),
-                        ),
-                        Control.time(
-                          key: 'time',
-                          value: TimeOfDay.now(),
-                          title: 'Time',
-                          suffixIcon: const Icon(Icons.settings),
-                        ),
-                        Control.dateRange(
-                          key: 'dateRange',
-                          title: 'Date range',
-                          suffixIcon: const Icon(Icons.settings),
-                        ),
-                      ],
+                    Control.page(
+                      controls: pages,
+                      title: 'Setting name',
+                      preficIcon: Icon(
+                        Icons.person_outline,
+                        size: 32,
+                        color: theme.colorScheme.primary,
+                      ),
                     ),
                   ],
                 ),
-              ),
+                Control.group(
+                  title: 'TOGGLE',
+                  settings: [
+                    Control.toggle(
+                      value: false,
+                      key: 'Settingsname',
+                      title: 'Setting name',
+                      description: "This is a description",
+                    ),
+                    Control.toggle(
+                      value: true,
+                      key: 'Settingsname1',
+                      title: 'Setting name',
+                    ),
+                  ],
+                ),
+                Control.group(
+                  title: 'CHECKBOX',
+                  settings: [
+                    Control.checkBox(
+                      value: false,
+                      key: 'Settingsnam2',
+                      title: 'Setting name',
+                      prefixIcon: Icon(
+                        Icons.person_outline,
+                        size: 32,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                    Control.checkBox(
+                      value: true,
+                      key: 'Settingsname3',
+                      title: 'Setting name',
+                      prefixIcon: Icon(
+                        Icons.person_outline,
+                        size: 32,
+                        color: theme.colorScheme.primary,
+                      ),
+                      description: "This is a description",
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
@@ -170,3 +144,28 @@ class Settings extends StatelessWidget {
     );
   }
 }
+
+List<Control> pages = [
+  Control.toggle(
+    key: 'settingsName5',
+    title: 'Setting name',
+    description: 'Description',
+  ),
+  Control.group(
+    title: 'SECTION',
+    settings: [
+      Control.checkBox(
+        value: false,
+        key: 'Settingsnam8',
+        title: 'Setting name',
+        description: "This is a description",
+      ),
+      Control.checkBox(
+        value: true,
+        key: 'Settingsname7',
+        title: 'Setting name',
+        description: "This is a description",
+      ),
+    ],
+  ),
+];
