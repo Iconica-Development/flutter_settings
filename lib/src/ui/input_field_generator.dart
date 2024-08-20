@@ -438,27 +438,28 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
     }
     var theme = Theme.of(context);
     return GestureDetector(
-      onTap: () async {
-        await Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => Scaffold(
-              appBar: AppBar(
-                centerTitle: true,
-                title: Text(
-                  setting.title ?? 'Page',
+      onTap: setting.onTap ??
+          () async {
+            await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => Scaffold(
+                  appBar: AppBar(
+                    centerTitle: true,
+                    title: Text(
+                      setting.title ?? 'Page',
+                    ),
+                  ),
+                  body: SingleChildScrollView(
+                    child: DeviceSettingsPage(
+                      settings: setting.settings ?? [],
+                      controlWrapper: widget.controlWrapper,
+                      groupWrapper: widget.groupWrapper,
+                    ),
+                  ),
                 ),
               ),
-              body: SingleChildScrollView(
-                child: DeviceSettingsPage(
-                  settings: setting.settings ?? [],
-                  controlWrapper: widget.controlWrapper,
-                  groupWrapper: widget.groupWrapper,
-                ),
-              ),
-            ),
-          ),
-        );
-      },
+            );
+          },
       child: Container(
         decoration: BoxDecoration(
           border: Border(
@@ -490,6 +491,8 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
                       width: 64,
                       child: setting.prefixIcon,
                     ),
+                  ] else ...[
+                    const SizedBox(width: 20),
                   ],
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,

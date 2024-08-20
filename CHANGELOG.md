@@ -1,3 +1,9 @@
+## 5.1.0
+
+* Upgraded flutter_profile and flutter_input_library
+* Added spacing to `control.page` title when no icon is provided
+* Added `onTap` callback to `control.page` to allow for custom actions
+
 ## 5.0.0
 
 * Remove partOfGroup from controllwrapper parameter.

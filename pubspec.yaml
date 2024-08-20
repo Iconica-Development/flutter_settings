@@ -1,8 +1,8 @@
 name: flutter_settings
 description: "Iconica Flutter Settings component"
-version: 5.0.0
 
-publish_to: "none"
+version: 5.1.0
+publish_to: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
 
 environment:
   sdk: ">=3.2.6 <4.0.0"
@@ -16,13 +16,12 @@ dependencies:
   shared_preferences: ^2.0.7  
   intl: ^0.18.1
   flutter_profile:
-    git:
-      url: https://github.com/Iconica-Development/flutter_profile
-      ref: 1.5.0
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
+    version: ^1.6.0
   flutter_input_library:
-    git:
-      url: https://github.com/Iconica-Development/flutter_input_library
-      ref: 3.3.1
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub
+    version: ^3.6.0
+  url_launcher: ^6.3.0
 
 dev_dependencies:
   flutter_test:

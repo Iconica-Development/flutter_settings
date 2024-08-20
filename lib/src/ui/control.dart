@@ -57,6 +57,7 @@ class Control extends ChangeNotifier {
     this.isLastSettingInGroup = false,
     this.hintText,
     this.initialValue,
+    this.onTap,
   });
 
   factory Control.custom({
@@ -74,6 +75,7 @@ class Control extends ChangeNotifier {
     required String title,
     String? description,
     Icon? preficIcon,
+    void Function()? onTap,
   }) =>
       Control(
         type: ControlType.page,
@@ -82,6 +84,7 @@ class Control extends ChangeNotifier {
         settings: controls,
         description: description,
         prefixIcon: preficIcon,
+        onTap: onTap,
       );
 
   factory Control.radio({
@@ -408,6 +411,8 @@ class Control extends ChangeNotifier {
 
   /// The initial value of the input field
   String? initialValue;
+
+  void Function()? onTap;
 
   void change(value) {
     onChange?.call(value);
