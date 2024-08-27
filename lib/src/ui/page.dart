@@ -14,8 +14,7 @@ abstract class SettingsPage extends StatefulWidget {
 
   factory SettingsPage.device({
     required List<Control> settings,
-    Widget Function(Widget child, Control setting, {bool partOfGroup})?
-        controlWrapper,
+    Widget Function(Widget child, Control setting)? controlWrapper,
     Widget Function(Widget child, Control setting)? groupWrapper,
     bool loadFromPrefs = true,
     Future<void> Function(List<Control>)? onSave,
@@ -33,8 +32,7 @@ abstract class SettingsPage extends StatefulWidget {
       );
 
   final List<Control> settings;
-  final Widget Function(Widget child, Control setting, {bool partOfGroup})?
-      controlWrapper;
+  final Widget Function(Widget child, Control setting)? controlWrapper;
   final Widget Function(Widget child, Control setting)? groupWrapper;
 }
 
