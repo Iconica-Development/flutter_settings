@@ -1,7 +1,3 @@
-## 5.0.0
-
-* Remove partOfGroup from controllwrapper parameter.
-
 ## 4.0.0
 
 * Added theme to text components

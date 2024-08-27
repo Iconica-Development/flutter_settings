@@ -13,8 +13,7 @@ class InputFieldGenerator extends StatefulWidget {
   });
 
   final List<Control> settings;
-  // ignore: avoid_positional_boolean_parameters
-  final Widget Function(Widget child, Control setting)?
+  final Widget Function(Widget child, Control setting, {bool partOfGroup})?
       controlWrapper;
   final Widget Function(Widget child, Control setting)? groupWrapper;
   final int index;
