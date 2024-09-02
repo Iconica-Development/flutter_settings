@@ -439,6 +439,10 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
     var theme = Theme.of(context);
     return GestureDetector(
       onTap: () async {
+        if (setting.onTap != null) {
+          setting.onTap!();
+          return;
+        }
         await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => Scaffold(
@@ -490,6 +494,8 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
                       width: 64,
                       child: setting.prefixIcon,
                     ),
+                  ] else ...[
+                    const SizedBox(width: 20),
                   ],
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
