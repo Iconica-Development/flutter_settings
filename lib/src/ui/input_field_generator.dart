@@ -56,11 +56,13 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
                   var isLastSetting = i == setting.settings!.length - 1;
                   setting.settings![i].isLastSettingInGroup = isLastSetting;
                   setting.settings![i].partOfGroup = true;
-                  var currentSetting = setting.settings![i];
 
-                  return _buildInputFieldFromControlSetting(
-                    context,
-                    currentSetting,
+                  return InputFieldGenerator(
+                    settings: setting.settings!,
+                    index: i,
+                    onUpdate: widget.onUpdate,
+                    controlWrapper: widget.controlWrapper,
+                    groupWrapper: widget.groupWrapper,
                   );
                 },
               ),
