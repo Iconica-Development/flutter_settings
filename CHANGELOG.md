@@ -1,3 +1,7 @@
+## 5.1.1
+* Fixed issue with inconsistent input field generation for custom controls
+* Removed unnecessary flutter object in pubspec.yaml
+
 ## 5.1.0
 
 * Upgraded flutter_profile and flutter_input_library
