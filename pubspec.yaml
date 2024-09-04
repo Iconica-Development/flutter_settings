@@ -1,7 +1,7 @@
 name: flutter_settings
 description: "Iconica Flutter Settings component"
 
-version: 5.1.1
+version: 5.2.0
 publish_to: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
 
 environment:

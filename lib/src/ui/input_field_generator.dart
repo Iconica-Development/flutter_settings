@@ -451,7 +451,11 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
               appBar: AppBar(
                 centerTitle: true,
                 title: Text(
-                  setting.title ?? 'Page',
+                  setting.title != null
+                      ? setting.capitalizeFirstLetter
+                          ? setting.title!
+                          : setting.title!.toLowerCase()
+                      : 'Page',
                 ),
               ),
               body: SingleChildScrollView(

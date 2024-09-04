@@ -58,6 +58,7 @@ class Control extends ChangeNotifier {
     this.hintText,
     this.initialValue,
     this.onTap,
+    this.capitalizeFirstLetter = true,
   });
 
   factory Control.custom({
@@ -76,6 +77,7 @@ class Control extends ChangeNotifier {
     String? description,
     Icon? preficIcon,
     void Function()? onTap,
+    bool capitalizeFirstLetter = true,
   }) =>
       Control(
         type: ControlType.page,
@@ -85,6 +87,7 @@ class Control extends ChangeNotifier {
         description: description,
         prefixIcon: preficIcon,
         onTap: onTap,
+        capitalizeFirstLetter: capitalizeFirstLetter,
       );
 
   factory Control.radio({
@@ -413,6 +416,8 @@ class Control extends ChangeNotifier {
   String? initialValue;
 
   void Function()? onTap;
+
+  bool capitalizeFirstLetter;
 
   void change(value) {
     onChange?.call(value);

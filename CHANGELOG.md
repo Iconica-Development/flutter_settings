@@ -1,3 +1,7 @@
+## 5.2.0
+
+* Added option to choose if the AppBar title of a page is capitalized or not
+
 ## 5.1.1
 * Fixed issue with inconsistent input field generation for custom controls
 * Removed unnecessary flutter object in pubspec.yaml
