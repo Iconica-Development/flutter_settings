@@ -7,6 +7,7 @@ class InputFieldGenerator extends StatefulWidget {
     required this.settings,
     required this.index,
     required this.onUpdate,
+    this.dismissKeyboardOnTap = true,
     this.controlWrapper,
     this.groupWrapper,
     super.key,
@@ -18,11 +19,46 @@ class InputFieldGenerator extends StatefulWidget {
   final int index;
   final Function(void Function()) onUpdate;
 
+  /// Whether to dismiss the keyboard when the user taps outside of the keyboard
+  /// This is only used for textfields
+  final bool dismissKeyboardOnTap;
+
   @override
   State<InputFieldGenerator> createState() => _InputFieldGeneratorState();
 }
 
 class _InputFieldGeneratorState extends State<InputFieldGenerator> {
+  OverlayEntry? _overlayEntry;
+
+  @override
+  void dispose() {
+    _removeOverlay();
+    super.dispose();
+  }
+
+  void _showOverlay(BuildContext context) {
+    _overlayEntry = _createOverlayEntry(context);
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  void _removeOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
+
+  OverlayEntry _createOverlayEntry(BuildContext context) => OverlayEntry(
+        builder: (context) => GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            _removeOverlay();
+          },
+          behavior: HitTestBehavior.translucent,
+          child: Container(
+            color: Colors.transparent,
+          ),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) =>
       _inputFieldBuilder(context, widget.index);
@@ -38,6 +74,21 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
 
     return _buildInputFieldFromControlSetting(context, widget.settings[index]);
   }
+
+  /// Wraps the child with a focus node if the dismissKeyboardOnTap is true
+  /// This is only used for textfields
+  Widget _buildWithFocusNodeWrapper(Widget child) => widget.dismissKeyboardOnTap
+      ? Focus(
+          onFocusChange: (hasFocus) {
+            if (hasFocus) {
+              _showOverlay(context);
+            } else {
+              _removeOverlay();
+            }
+          },
+          child: child,
+        )
+      : child;
 
   Widget _buildInputFieldFromControlSetting(
     BuildContext context,
@@ -166,37 +217,39 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
       case ControlType.textField:
         return _addInputFieldWrapper(
           context,
-          FlutterFormInputPlainText(
-            style: theme.textTheme.bodySmall,
-            maxLines: setting.maxLines ?? 1,
-            initialValue:
-                setting.value != '' ? setting.value : setting.initialValue,
-            validator: setting.validator,
-            keyboardType: setting.keyboardType,
-            onChanged: (value) {
-              setting.onChange?.call({setting.key: value});
-              widget.onUpdate(() => setting.value = value);
-            },
-            formatInputs: setting.formatInputs,
-            decoration: setting.decoration ??
-                InputDecoration(
-                  hintStyle: theme.textTheme.bodySmall!.copyWith(
-                    color: theme.textTheme.bodySmall!.color!.withOpacity(0.5),
-                  ),
-                  hintText: setting.hintText,
-                  fillColor: Colors.white,
-                  filled: true,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
-                  ),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(12),
+          _buildWithFocusNodeWrapper(
+            FlutterFormInputPlainText(
+              style: theme.textTheme.bodySmall,
+              maxLines: setting.maxLines ?? 1,
+              initialValue:
+                  setting.value != '' ? setting.value : setting.initialValue,
+              validator: setting.validator,
+              keyboardType: setting.keyboardType,
+              onChanged: (value) {
+                setting.onChange?.call({setting.key: value});
+                widget.onUpdate(() => setting.value = value);
+              },
+              formatInputs: setting.formatInputs,
+              decoration: setting.decoration ??
+                  InputDecoration(
+                    hintStyle: theme.textTheme.bodySmall!.copyWith(
+                      color: theme.textTheme.bodySmall!.color!.withOpacity(0.5),
+                    ),
+                    hintText: setting.hintText,
+                    fillColor: Colors.white,
+                    filled: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
                     ),
                   ),
-                ),
+            ),
           ),
           setting,
         );

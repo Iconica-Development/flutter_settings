@@ -9,6 +9,7 @@ abstract class SettingsPage extends StatefulWidget {
     required this.settings,
     this.controlWrapper,
     this.groupWrapper,
+    this.dismissKeyboardOnTap = true,
     super.key,
   });
 
@@ -34,6 +35,10 @@ abstract class SettingsPage extends StatefulWidget {
   final List<Control> settings;
   final Widget Function(Widget child, Control setting)? controlWrapper;
   final Widget Function(Widget child, Control setting)? groupWrapper;
+
+  /// Whether to dismiss the keyboard when the user taps outside of the keyboard
+  /// This is only used for textfields
+  final bool dismissKeyboardOnTap;
 }
 
 abstract class SettingsPageState<SP extends SettingsPage> extends State<SP> {
@@ -79,6 +84,7 @@ abstract class SettingsPageState<SP extends SettingsPage> extends State<SP> {
           onUpdate: setState,
           controlWrapper: widget.controlWrapper,
           groupWrapper: widget.groupWrapper,
+          dismissKeyboardOnTap: widget.dismissKeyboardOnTap,
         ),
       ),
     );
