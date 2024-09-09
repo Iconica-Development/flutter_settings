@@ -1,3 +1,7 @@
+## 5.3.0
+
+* Added option to dismiss keyboards when tapping outside of the keyboard. This can be disabled by setting `dismissKeyboardOnTap` to `false`
+
 ## 5.2.0
 
 * Added option to choose if the AppBar title of a page is capitalized or not
