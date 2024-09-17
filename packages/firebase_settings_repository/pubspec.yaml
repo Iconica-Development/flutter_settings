@@ -1,0 +1,26 @@
+name: firebase_settings_repository
+description: "Firebase repository for flutter_settings"
+version: 6.0.0
+publish_to: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
+
+environment:
+  sdk: ^3.5.1
+  flutter: ">=1.17.0"
+
+dependencies:
+  firebase_core: ^3.4.1
+  firebase_auth: ^4.19.4
+  flutter:
+    sdk: flutter
+  settings_repository_interface:
+    path: ../settings_repository_interface
+
+  cloud_firestore: ^4.13.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_iconica_analysis:
+    git:
+      url: https://github.com/Iconica-Development/flutter_iconica_analysis
+      ref: 7.0.0

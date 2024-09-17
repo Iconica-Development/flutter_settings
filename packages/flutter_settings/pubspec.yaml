@@ -1,0 +1,25 @@
+name: flutter_settings
+description: "A new Flutter package project."
+version: 6.0.0
+publish_to: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
+
+environment:
+  sdk: ^3.5.1
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_input_library:
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub
+    version: ^3.6.0
+  settings_repository_interface:
+    path: ../settings_repository_interface
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_iconica_analysis:
+    git:
+      url: https://github.com/Iconica-Development/flutter_iconica_analysis
+      ref: 7.0.0

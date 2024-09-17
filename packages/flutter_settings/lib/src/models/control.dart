@@ -1,9 +1,10 @@
 ///
+library;
 // ignore_for_file: avoid_annotating_with_dynamic
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_input_library/flutter_input_library.dart';
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:flutter_input_library/flutter_input_library.dart";
 
 /// The settings are saved to shared preferences. Use the key you set to extract
 /// the value of the settings.
@@ -81,7 +82,7 @@ class Control extends ChangeNotifier {
   }) =>
       Control(
         type: ControlType.page,
-        key: 'page_$title',
+        key: "page_$title",
         title: title,
         settings: controls,
         description: description,
@@ -99,7 +100,7 @@ class Control extends ChangeNotifier {
     String? description,
   }) =>
       Control(
-        value: {'items': items, 'selected': selected},
+        value: {"items": items, "selected": selected},
         type: ControlType.radio,
         title: title,
         onChange: onChange,
@@ -119,11 +120,11 @@ class Control extends ChangeNotifier {
     String? hintText,
   }) {
     if (selected != null) {
-      assert(selected < items.length, 'Selected exceeds item length');
-      assert(selected >= 0, 'Selected must be a positive value');
+      assert(selected < items.length, "Selected exceeds item length");
+      assert(selected >= 0, "Selected must be a positive value");
     }
     return Control(
-      value: {'items': items, 'selected': selected},
+      value: {"items": items, "selected": selected},
       type: ControlType.dropDown,
       title: title,
       onChange: (value) {
@@ -147,7 +148,7 @@ class Control extends ChangeNotifier {
     bool partOfGroup = false,
   }) =>
       Control(
-        title: title ?? '',
+        title: title ?? "",
         value: value ?? false,
         onChange: (value) {
           onChange?.call(value);
@@ -169,7 +170,7 @@ class Control extends ChangeNotifier {
     bool partOfGroup = false,
   }) =>
       Control(
-        title: title ?? '',
+        title: title ?? "",
         value: value ?? false,
         onChange: (value) {
           onChange?.call(value);
@@ -190,16 +191,16 @@ class Control extends ChangeNotifier {
     int? min,
   }) =>
       Control(
-        title: title ?? '',
+        title: title ?? "",
         onChange: (value) {
           onChange?.call(value);
         },
         key: key,
         type: ControlType.number,
         value: <String, int>{
-          'selected': value ?? min ?? 0,
-          'min': min ?? 0,
-          'max': max ?? 10,
+          "selected": value ?? min ?? 0,
+          "min": min ?? 0,
+          "max": max ?? 10,
         },
       );
 
@@ -222,9 +223,9 @@ class Control extends ChangeNotifier {
           onChange?.call(value);
         },
         value: <String, DateTime?>{
-          'selected': value ?? DateTime.now(),
-          'min': min ?? value ?? DateTime.now(),
-          'max': max ??
+          "selected": value ?? DateTime.now(),
+          "min": min ?? value ?? DateTime.now(),
+          "max": max ??
               (min ?? value ?? DateTime.now()).add(
                 const Duration(days: 365),
               ),
@@ -272,11 +273,11 @@ class Control extends ChangeNotifier {
           onChange?.call(value);
         },
         value: <String, DateTime?>{
-          'selected-start': value?.start ?? DateTime.now(),
-          'selected-end':
+          "selected-start": value?.start ?? DateTime.now(),
+          "selected-end":
               value?.end ?? DateTime.now().add(const Duration(days: 1)),
-          'min': min ?? value?.start ?? DateTime.now(),
-          'max': max ??
+          "min": min ?? value?.start ?? DateTime.now(),
+          "max": max ??
               (min ?? value?.start ?? DateTime.now())
                   .add(const Duration(days: 365)),
         },
@@ -291,7 +292,7 @@ class Control extends ChangeNotifier {
   }) =>
       Control(
         type: ControlType.group,
-        key: 'group_$title',
+        key: "group_$title",
         settings: settings,
         title: title,
         boxDecoration: boxDecoration,
@@ -314,7 +315,7 @@ class Control extends ChangeNotifier {
     String? initialValue,
   }) =>
       Control(
-        title: title ?? '',
+        title: title ?? "",
         type: ControlType.textField,
         key: key,
         content: content,
@@ -426,14 +427,14 @@ class Control extends ChangeNotifier {
 
   dynamic getValue() {
     if (value is Map) {
-      if ((value as Map).containsKey('selected-start') &&
-          (value as Map).containsKey('selected-end')) {
+      if ((value as Map).containsKey("selected-start") &&
+          (value as Map).containsKey("selected-end")) {
         return <DateTime>[
-          (value as Map)['selected-start'],
-          (value as Map)['selected-end'],
+          (value as Map)["selected-start"],
+          (value as Map)["selected-end"],
         ];
       } else {
-        return (value as Map)['selected'];
+        return (value as Map)["selected"];
       }
     } else {
       return value;
@@ -442,12 +443,12 @@ class Control extends ChangeNotifier {
 
   void clear() {
     if (value is Map) {
-      if ((value as Map).containsKey('selected-start') &&
-          (value as Map).containsKey('selected-end')) {
-        (value as Map)['selected-start'] = null;
-        (value as Map)['selected-end'] = null;
+      if ((value as Map).containsKey("selected-start") &&
+          (value as Map).containsKey("selected-end")) {
+        (value as Map)["selected-start"] = null;
+        (value as Map)["selected-end"] = null;
       } else {
-        (value as Map)['selected'] = null;
+        (value as Map)["selected"] = null;
       }
     } else {
       value = null;
