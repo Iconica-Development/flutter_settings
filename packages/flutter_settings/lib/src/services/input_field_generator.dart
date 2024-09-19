@@ -1,12 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_settings/flutter_settings.dart';
-import 'package:intl/intl.dart';
+import "package:flutter/material.dart";
+import "package:flutter_input_library/flutter_input_library.dart";
+import "package:flutter_settings/flutter_settings.dart";
+import "package:intl/intl.dart";
 
 class InputFieldGenerator extends StatefulWidget {
   const InputFieldGenerator({
     required this.settings,
     required this.index,
     required this.onUpdate,
+    required this.settingsService,
     this.dismissKeyboardOnTap = true,
     this.controlWrapper,
     this.groupWrapper,
@@ -18,6 +20,7 @@ class InputFieldGenerator extends StatefulWidget {
   final Widget Function(Widget child, Control setting)? groupWrapper;
   final int index;
   final Function(void Function()) onUpdate;
+  final SettingsService settingsService;
 
   /// Whether to dismiss the keyboard when the user taps outside of the keyboard
   /// This is only used for textfields
@@ -109,6 +112,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
                   setting.settings![i].partOfGroup = true;
 
                   return InputFieldGenerator(
+                    settingsService: widget.settingsService,
                     settings: setting.settings!,
                     index: i,
                     onUpdate: widget.onUpdate,
@@ -127,6 +131,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
           context,
           const Icon(Icons.chevron_right),
           setting,
+          widget.settingsService,
         );
 
       case ControlType.dropDown:
@@ -139,7 +144,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
             ),
             style: theme.textTheme.bodySmall,
             isExpanded: true,
-            items: ((setting.value as Map)['items'] as List<String>)
+            items: ((setting.value as Map)["items"] as List<String>)
                 .map(
                   (e) => DropdownMenuItem(
                     value: e,
@@ -149,10 +154,10 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
                 .toList(),
             onChanged: (value) {
               setting.onChange?.call({setting.key: value});
-              widget.onUpdate(() => (setting.value as Map)['selected'] = value);
+              widget.onUpdate(() => (setting.value as Map)["selected"] = value);
             },
-            value: (setting.value as Map)['selected'],
-            hint: Text(setting.hintText ?? ''),
+            value: (setting.value as Map)["selected"],
+            hint: Text(setting.hintText ?? ""),
             decoration: setting.decoration ??
                 InputDecoration(
                   fillColor: Colors.white,
@@ -199,13 +204,13 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
           SizedBox(
             width: MediaQuery.of(context).size.width,
             child: FlutterFormInputRadioPicker(
-              items: (setting.value as Map)['items'],
-              initialValue: (setting.value as Map)['selected'],
+              items: (setting.value as Map)["items"],
+              initialValue: (setting.value as Map)["selected"],
               onChanged: (value) {
                 if (value != null) {
                   setting.onChange?.call(value.value);
                   widget.onUpdate(
-                    () => (setting.value as Map)['selected'] = value.value,
+                    () => (setting.value as Map)["selected"] = value.value,
                   );
                 }
               },
@@ -221,8 +226,9 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
             FlutterFormInputPlainText(
               style: theme.textTheme.bodySmall,
               maxLines: setting.maxLines ?? 1,
-              initialValue:
-                  setting.value != '' ? setting.value : setting.initialValue,
+              initialValue: setting.value != "" && setting.value != null
+                  ? setting.value
+                  : setting.initialValue,
               validator: setting.validator,
               keyboardType: setting.keyboardType,
               onChanged: (value) {
@@ -290,20 +296,20 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
               if (value != null) {
                 setting.onChange?.call({setting.key: value});
                 widget.onUpdate(
-                  () => (setting.value as Map)['selected'] = value,
+                  () => (setting.value as Map)["selected"] = value,
                 );
               }
             },
             minValue: 0,
             maxValue: 10,
-            initialValue: (setting.value as Map)['selected'],
+            initialValue: (setting.value as Map)["selected"],
             axis: Axis.horizontal,
           ),
           setting,
         );
 
       case ControlType.date:
-        var dateFormat = DateFormat('dd-MM-yyyy');
+        var dateFormat = DateFormat("dd-MM-yyyy");
 
         return _addInputFieldWrapper(
           context,
@@ -326,16 +332,16 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
                 ),
             inputType: FlutterFormDateTimeType.date,
             dateFormat: dateFormat,
-            firstDate: (setting.value as Map)['min'],
-            lastDate: (setting.value as Map)['max'],
-            initialValue: dateFormat.format((setting.value as Map)['selected']),
-            initialDate: (setting.value as Map)['selected'] ?? DateTime.now(),
+            firstDate: (setting.value as Map)["min"],
+            lastDate: (setting.value as Map)["max"],
+            initialValue: dateFormat.format((setting.value as Map)["selected"]),
+            initialDate: (setting.value as Map)["selected"] ?? DateTime.now(),
             onChanged: (value) {
               if (value != null) {
                 var date = dateFormat.parse(value);
                 setting.onChange?.call({setting.key: date});
                 widget.onUpdate(
-                  () => (setting.value as Map)['selected'] = date,
+                  () => (setting.value as Map)["selected"] = date,
                 );
               }
             },
@@ -345,7 +351,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
         );
 
       case ControlType.time:
-        var timeFormat = DateFormat('HH:mm');
+        var timeFormat = DateFormat("HH:mm");
         return _addInputFieldWrapper(
           context,
           FlutterFormInputDateTime(
@@ -369,12 +375,12 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
             dateFormat: timeFormat,
             initialTime: setting.value ?? TimeOfDay.now(),
             initialValue: ((setting.value) as TimeOfDay?) != null
-                ? '${(setting.value as TimeOfDay).hour}:'
-                    '${(setting.value as TimeOfDay).minute}'
+                ? "${(setting.value as TimeOfDay).hour}:"
+                    "${(setting.value as TimeOfDay).minute}"
                 : null,
             onChanged: (value) {
               if (value != null) {
-                var split = value.split(':');
+                var split = value.split(":");
                 var time = TimeOfDay(
                   hour: int.parse(split[0]),
                   minute: int.parse(split[1]),
@@ -388,12 +394,12 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
         );
 
       case ControlType.dateRange:
-        var dateFormat = DateFormat('dd-MM-yyyy');
+        var dateFormat = DateFormat("dd-MM-yyyy");
 
         String? initialValue;
 
-        if (((setting.value as Map)['selected-start'] as DateTime?) != null &&
-            ((setting.value as Map)['selected-end'] as DateTime?) != null) {
+        if (((setting.value as Map)["selected-start"] as DateTime?) != null &&
+            ((setting.value as Map)["selected-end"] as DateTime?) != null) {
           initialValue =
               // ignore: lines_longer_than_80_chars
               '${dateFormat.format((setting.value as Map)['selected-start'] as DateTime)} - ${dateFormat.format((setting.value as Map)['selected-end'] as DateTime)}';
@@ -420,20 +426,20 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
                 ),
             inputType: FlutterFormDateTimeType.range,
             dateFormat: dateFormat,
-            firstDate: (setting.value as Map)['min'],
-            lastDate: (setting.value as Map)['max'],
+            firstDate: (setting.value as Map)["min"],
+            lastDate: (setting.value as Map)["max"],
             initialValue: initialValue,
             onChanged: (value) {
               if (value != null) {
-                var split = value.split(' ');
+                var split = value.split(" ");
                 var start = split[0];
                 var end = split[2];
 
                 setting.onChange?.call({setting.key: value});
                 widget.onUpdate(() {
-                  (setting.value as Map)['selected-start'] =
+                  (setting.value as Map)["selected-start"] =
                       dateFormat.parse(start);
-                  (setting.value as Map)['selected-end'] =
+                  (setting.value as Map)["selected-end"] =
                       dateFormat.parse(end);
                 });
               }
@@ -487,6 +493,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
     BuildContext context,
     Widget child,
     Control setting,
+    SettingsService settingsService,
   ) {
     if (widget.controlWrapper != null) {
       return widget.controlWrapper!.call(child, setting);
@@ -508,11 +515,12 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
                       ? setting.capitalizeFirstLetter
                           ? setting.title!
                           : setting.title!.toLowerCase()
-                      : 'Page',
+                      : "Page",
                 ),
               ),
               body: SingleChildScrollView(
                 child: DeviceSettingsPage(
+                  settingsService: widget.settingsService,
                   settings: setting.settings ?? [],
                   controlWrapper: widget.controlWrapper,
                   groupWrapper: widget.groupWrapper,
@@ -522,7 +530,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
           ),
         );
       },
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           border: Border(
             bottom: setting.isLastSettingInGroup
@@ -601,7 +609,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
           const SizedBox(
             height: 24,
           ),
-        Container(
+        DecoratedBox(
           decoration: BoxDecoration(
             border: Border(
               bottom: setting.isLastSettingInGroup
@@ -708,7 +716,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
           const SizedBox(
             height: 24,
           ),
-        Container(
+        DecoratedBox(
           decoration: BoxDecoration(
             border: Border(
               bottom: setting.isLastSettingInGroup
@@ -752,7 +760,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          setting.title ?? '',
+                          setting.title ?? "",
                           style: theme.textTheme.titleMedium,
                         ),
                         if (setting.description != null) ...[
