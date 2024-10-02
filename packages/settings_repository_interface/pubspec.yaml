@@ -1,6 +1,6 @@
 name: settings_repository_interface
 description: "flutter_settings respository interface"
-version: 6.0.0
+version: 6.0.1
 publish_to: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
 
 environment:

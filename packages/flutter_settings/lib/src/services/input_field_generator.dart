@@ -208,7 +208,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
               initialValue: (setting.value as Map)["selected"],
               onChanged: (value) {
                 if (value != null) {
-                  setting.onChange?.call(value.value);
+                  setting.onChange?.call({setting.key: value.value});
                   widget.onUpdate(
                     () => (setting.value as Map)["selected"] = value.value,
                   );
@@ -546,41 +546,35 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 20,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 20),
           child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  if (setting.prefixIcon != null) ...[
-                    SizedBox(
-                      width: 64,
-                      child: setting.prefixIcon,
-                    ),
-                  ] else ...[
-                    const SizedBox(width: 20),
+              if (setting.prefixIcon != null) ...[
+                SizedBox(
+                  width: 64,
+                  child: setting.prefixIcon,
+                ),
+              ] else ...[
+                const SizedBox(width: 20),
+              ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (setting.title != null)
+                      Text(
+                        setting.title!,
+                        style: theme.textTheme.titleMedium,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    if (setting.description != null)
+                      Text(
+                        setting.description!,
+                        style: theme.textTheme.bodyMedium,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                   ],
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (setting.title != null)
-                        Text(
-                          setting.title!,
-                          style: theme.textTheme.titleMedium,
-                        ),
-                      if (setting.description != null)
-                        Text(
-                          setting.description!,
-                          style: theme.textTheme.bodyMedium,
-                        ),
-                    ],
-                  ),
-                ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -589,6 +583,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
             ],
           ),
         ),
+  
       ),
     );
   }
