@@ -1,15 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:settings_repository_interface/settings_repository_interface.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:firebase_auth/firebase_auth.dart";
+import "package:settings_repository_interface/settings_repository_interface.dart";
 
 class FirebaseSettingsRepository implements SettingsRepositoryInterface {
-  final String usersCollection;
-  Map<String, dynamic> _settingsMap = {};
-
   FirebaseSettingsRepository({
-    this.usersCollection = 'users',
+    this.usersCollection = "users",
     FirebaseFirestore? firestore,
   }) : firestore = firestore ?? FirebaseFirestore.instance;
+  final String usersCollection;
+  Map<String, dynamic> _settingsMap = {};
 
   final FirebaseFirestore firestore;
 
@@ -17,17 +16,17 @@ class FirebaseSettingsRepository implements SettingsRepositoryInterface {
   Future<void> loadSettings() async {
     try {
       var userId = FirebaseAuth.instance.currentUser!.uid;
-      DocumentSnapshot<Map<String, dynamic>> snapshot =
+      var snapshot =
           await firestore.collection(usersCollection).doc(userId).get();
 
       if (snapshot.exists && snapshot.data() != null) {
-        _settingsMap = snapshot.data()!['settings'] ?? {};
+        _settingsMap = snapshot.data()!["settings"] ?? {};
       } else {
         _settingsMap = {};
       }
-    } catch (e) {
-      print('Error loading settings: $e');
-      throw Exception('Failed to load settings');
+    } on Exception catch (e) {
+      print("Error loading settings: $e");
+      throw Exception("Failed to load settings");
     }
   }
 
@@ -38,12 +37,12 @@ class FirebaseSettingsRepository implements SettingsRepositoryInterface {
       await firestore
           .collection(usersCollection)
           .doc(userId)
-          .set({'settings': settings}, SetOptions(merge: true));
+          .set({"settings": settings}, SetOptions(merge: true));
 
       _settingsMap.addAll(settings);
     } catch (e) {
-      print('Error saving settings: $e');
-      throw Exception('Failed to save settings');
+      print("Error saving settings: $e");
+      throw Exception("Failed to save settings");
     }
   }
 
