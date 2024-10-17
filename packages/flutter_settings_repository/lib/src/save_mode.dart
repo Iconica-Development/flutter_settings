@@ -1,0 +1,4 @@
+enum SettingsSaveMode {
+  allAtOnce,
+  oncePerSetting,
+}

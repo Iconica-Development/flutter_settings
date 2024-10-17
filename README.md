@@ -1,20 +1,16 @@
-# Flutter Settings
+# flutter_settings
 
-![Settings GIF](flutter_settings.gif)
+A new Flutter project.
 
+## Getting Started
 
+This project is a starting point for a Flutter application.
 
-## How to use
+A few resources to get you started if this is your first Flutter project:
 
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-## Issues
-
-Please file any issues, bugs or feature request as an issue on our [GitHub](https://github.com/Iconica-Development/flutter_settings/pulls) page. Commercial support is available if you need help with integration with your app or services. You can contact us at [support@iconica.nl](mailto:support@iconica.nl).
-
-## Want to contribute
-
-If you would like to contribute to the plugin (e.g. by improving the documentation, solving a bug or adding a cool new feature), please carefully review our [contribution guide](../CONTRIBUTING.md) and send us your [pull request](https://github.com/Iconica-Development/flutter_settings/pulls).
-
-## Author
-
-This `flutter_settings` for Flutter is developed by [Iconica](https://iconica.nl). You can contact us at <support@iconica.nl>
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
