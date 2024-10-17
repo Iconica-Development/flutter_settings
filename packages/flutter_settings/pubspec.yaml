@@ -1,27 +1,29 @@
 name: flutter_settings
 description: "A new Flutter package project."
-version: 6.0.1
+version: 6.0.0
+homepage: https://github.com/Iconica-Development?view_as=public
+
 publish_to: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
 
 environment:
-  sdk: ^3.5.1
+  sdk: ">=3.4.3 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  flutter_input_library:
+  flutter_hooks: ^0.20.5
+  settings_repository:
     hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub
-    version: ^3.6.0
-  settings_repository_interface:
-    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub
-    version: ^6.0.1
-  intl: ^0.19.0
+    version: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mocktail: ^1.0.4
   flutter_iconica_analysis:
     git:
       url: https://github.com/Iconica-Development/flutter_iconica_analysis
       ref: 7.0.0
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec

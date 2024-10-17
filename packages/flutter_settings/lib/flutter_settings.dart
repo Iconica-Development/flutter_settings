@@ -1,9 +1,9 @@
 ///
 library flutter_settings;
 
-export "package:flutter_input_library/flutter_input_library.dart";
-export "package:settings_repository_interface/settings_repository_interface.dart";
-
-export "src/models/control.dart";
-export "src/screens/device_settings_page.dart";
-export "src/services/input_field_generator.dart";
+export "src/config/controls/controls.dart";
+export "src/config/defaults.dart";
+export "src/config/options.dart";
+export "src/service/settings_control_controller.dart";
+export "src/ui/settings_entry_widget.dart";
+export "src/user_story.dart";
