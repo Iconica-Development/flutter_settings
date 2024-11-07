@@ -43,6 +43,38 @@ var settingControls = <SettingsControlConfig>[
     ],
   ),
   ControlConfig.group(
+    title: 'Checkboxes',
+    children: [
+      ControlConfig.checkbox(
+        key: "checkbox_1",
+        title: "My Checkbox",
+        description: "Described",
+      ),
+      ControlConfig.checkbox(
+        key: "checkbox_2",
+        title: "My Checkbox",
+        description: "Described",
+      ),
+    ],
+  ),
+  ControlConfig.group(
+    title: "Radio Options",
+    children: [
+      ControlConfig.radio(
+        key: "radio_1",
+        title: "My Radio",
+        description: "Described",
+        options: ["Light", "Dark", "Adaptive"],
+      ),
+      ControlConfig.radio(
+        key: "radio_2",
+        title: "My Radio",
+        description: "Described",
+        options: ["Small", "Medium", "Large", "Extra Large"],
+      ),
+    ],
+  ),
+  ControlConfig.group(
     title: "Pages",
     children: [
       ControlConfig.page(
