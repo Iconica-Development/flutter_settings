@@ -1,5 +1,4 @@
 import "package:flutter_settings/flutter_settings.dart";
-import "package:flutter_settings/src/config/controls/checkbox.dart";
 import "package:flutter_settings/src/config/controls/radio.dart";
 import "package:settings_repository/settings_repository.dart";
 
@@ -14,15 +13,17 @@ export "toggle.dart";
 /// A shorthand for all available controls
 abstract final class ControlConfig {
   ///
-  static CheckBoxControlConfig checkbox({
+  static RadioControlConfig radio({
     required String key,
     required String title,
+    required List<String> options,
     String? description,
-    ControlWrapperBuilder<bool, CheckBoxControlConfig>? wrapperBuilder,
+    ControlWrapperBuilder<String, RadioControlConfig>? wrapperBuilder,
   }) =>
-      CheckBoxControlConfig(
+      RadioControlConfig(
         title: title,
         description: description,
+        options: options,
         initialValue: SettingsControl(key: key),
         wrapperBuilder: wrapperBuilder ?? defaultDescriptionTitleControlWrapper,
       );
