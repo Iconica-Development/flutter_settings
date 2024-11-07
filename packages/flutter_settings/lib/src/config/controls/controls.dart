@@ -3,6 +3,7 @@ import "package:flutter/services.dart";
 import "package:flutter_settings/flutter_settings.dart";
 import "package:flutter_settings/src/config/controls/checkbox.dart";
 import "package:flutter_settings/src/config/controls/date.dart";
+import "package:flutter_settings/src/config/controls/dropdown.dart";
 import "package:flutter_settings/src/config/controls/radio.dart";
 import "package:settings_repository/settings_repository.dart";
 
@@ -95,6 +96,26 @@ abstract final class ControlConfig {
         inputFormatters: inputFormatters,
         keyboardType: keyboardType,
         maxLines: maxLines,
+        initialValue: SettingsControl(key: key),
+        wrapperBuilder: wrapperBuilder ?? defaultDescriptionTitleControlWrapper,
+      );
+
+  ///
+  static DropdownControlConfig dropdown({
+    required String key,
+    required String title,
+    required List<String> options,
+    String? description,
+    String? hintText,
+    Widget? suffixIcon,
+    InputDecoration? inputDecoration,
+    ControlWrapperBuilder<String, DropdownControlConfig>? wrapperBuilder,
+  }) =>
+      DropdownControlConfig(
+        title: title,
+        description: description,
+        hintText: hintText,
+        options: options,
         initialValue: SettingsControl(key: key),
         wrapperBuilder: wrapperBuilder ?? defaultDescriptionTitleControlWrapper,
       );

@@ -127,6 +127,23 @@ var settingControls = <SettingsControlConfig>[
     ],
   ),
   ControlConfig.group(
+    title: "Dropdowns",
+    children: [
+      ControlConfig.dropdown(
+        key: "dropdown_test",
+        title: "Dropdown Example",
+        description: "Described",
+        hintText: "Select an item",
+        options: ["Item 1", "Item 2", "Item 3", "Item 4"],
+        inputDecoration: const InputDecoration(
+          icon: Icon(Icons.abc),
+          fillColor: Colors.red,
+          filled: true,
+        ),
+      ),
+    ],
+  ),
+  ControlConfig.group(
     title: "Pages",
     children: [
       ControlConfig.page(
