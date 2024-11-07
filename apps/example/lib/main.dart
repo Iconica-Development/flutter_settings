@@ -49,7 +49,7 @@ var settingControls = <SettingsControlConfig>[
         key: "radio_1",
         title: "My Radio",
         description: "Described",
-        options: ["Light", "Dark", "Adaptive"],
+        options: ["Light", "Dark", "Adaptive Control"],
       ),
       ControlConfig.radio(
         key: "radio_2",

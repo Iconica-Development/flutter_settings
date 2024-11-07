@@ -3,8 +3,8 @@ import "package:flutter_settings/flutter_settings.dart";
 import "package:settings_repository/settings_repository.dart";
 
 ///
-class RadioControlConfig
-    extends DescriptiveTitleControlConfig<String, RadioControlConfig> {
+class RadioControlConfig<T>
+    extends DescriptiveTitleControlConfig<T, RadioControlConfig<T>> {
   ///
   RadioControlConfig({
     required super.title,
@@ -15,34 +15,31 @@ class RadioControlConfig
   });
 
   ///
-  final List<String> options;
+  final List<T> options;
 
   @override
   Widget buildSetting(
     BuildContext context,
-    SettingsControl<String> control,
+    SettingsControl<T> control,
     SettingsControlController controller,
   ) =>
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: options
-            .map(
-              (String option) => ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 0.7,
-                ),
-                child: RadioListTile<String>(
-                  title: Text(option),
-                  value: option,
-                  groupValue: control.value,
-                  onChanged: (String? value) async {
-                    if (value != null) {
-                      await controller.updateControl(control.update(value));
-                    }
-                  },
-                ),
+        children: [
+          for (var option in options)
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 200),
+              child: RadioListTile<T>(
+                title: Text(option.toString()),
+                value: option,
+                groupValue: control.value,
+                onChanged: (T? value) async {
+                  if (value != null) {
+                    await controller.updateControl(control.update(value));
+                  }
+                },
               ),
-            )
-            .toList(),
+            ),
+        ],
       );
 }

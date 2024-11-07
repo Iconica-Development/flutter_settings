@@ -13,12 +13,12 @@ export "toggle.dart";
 /// A shorthand for all available controls
 abstract final class ControlConfig {
   ///
-  static RadioControlConfig radio({
+  static RadioControlConfig<T> radio<T>({
     required String key,
     required String title,
-    required List<String> options,
+    required List<T> options,
     String? description,
-    ControlWrapperBuilder<String, RadioControlConfig>? wrapperBuilder,
+    ControlWrapperBuilder<T, RadioControlConfig<T>>? wrapperBuilder,
   }) =>
       RadioControlConfig(
         title: title,
