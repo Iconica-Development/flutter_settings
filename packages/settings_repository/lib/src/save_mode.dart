@@ -1,0 +1,4 @@
+enum SettingsSaveStrategy {
+  allAtOnce,
+  oncePerSetting,
+}

@@ -1,17 +1,15 @@
-name: firebase_settings_repository
-description: "A new Flutter package project."
-version: 1.0.0
+name: device_settings_repository
+description: A starting point for Dart libraries or applications.
+version: 6.0.0
 
 publish_to: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
 
 environment:
-  sdk: ">=3.4.3 <4.0.0"
-  flutter: ">=1.17.0"
+  sdk: ^3.4.3
 
 dependencies:
-  cloud_firestore: ^5.0.0
-  flutter:
-    sdk: flutter
+  rxdart: ^0.28.0
+  shared_preferences: ^2.3.2
   settings_repository:
     hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub
     version: ^1.0.0

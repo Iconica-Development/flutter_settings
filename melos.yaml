@@ -1,6 +1,7 @@
-name: flutter_settings
+name: flutter_locations
 
 packages:
+  - apps/**
   - packages/**
 
 command:
@@ -9,7 +10,7 @@ command:
 
 scripts:
   lint:all:
-    run: dart run melos run analyze && dart run melos run format-check
+    run: dart run melos run analyze && dart run melos run format-check && dart run melos run test
     description: Run all static analysis checks.
 
   get:
@@ -19,10 +20,6 @@ scripts:
 
   upgrade:
     run: melos exec -c 1 -- "flutter pub upgrade"
-
-  create:
-    # run create in the example folder of flutter_chat_view
-    run: melos exec --scope="*example*" -c 1 -- "flutter create ."
 
   analyze:
     run: |
@@ -37,3 +34,9 @@ scripts:
   format-check:
     run: dart run melos exec dart format . --set-exit-if-changed
     description: Run `dart format` checks for all packages.
+
+  test:
+    run: |
+      dart run melos exec -c 1 -- \
+        flutter test -r github
+    description: Run `flutter test` to validate all tests for all packages
