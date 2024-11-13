@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_example/firebase_options.dart';
 import 'package:firebase_settings_repository/firebase_settings_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_settings/flutter_settings.dart';
@@ -91,7 +90,8 @@ void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
 
   var app = await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform);
+      // options: DefaultFirebaseOptions.currentPlatform,
+      );
 
   firestoreRepository = FirebaseSettingsRepository(
     firestore: FirebaseFirestore.instanceFor(app: app),
