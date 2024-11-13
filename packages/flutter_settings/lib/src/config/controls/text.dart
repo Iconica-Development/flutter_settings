@@ -18,6 +18,7 @@ class TextControlConfig
           initialValue: SettingsControl<String>(key: key),
         );
 
+  ///
   final InputDecoration? decoration;
 
   @override
