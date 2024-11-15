@@ -1,6 +1,7 @@
 import 'package:device_settings_repository/device_settings_repository.dart';
 import 'package:example/my_image_control.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_settings/flutter_settings.dart';
 import 'package:settings_repository/settings_repository.dart';
 
@@ -31,10 +32,6 @@ var settingControls = <SettingsControlConfig>[
         title: "My Toggle",
         description: "Described",
       ),
-      TextControlConfig(
-        title: "Hello World",
-        key: "text_key_1",
-      ),
       ControlConfig.toggle(
         key: "test_2",
         title: "My Toggle",
@@ -54,6 +51,61 @@ var settingControls = <SettingsControlConfig>[
         key: "checkbox_2",
         title: "My Checkbox",
         description: "Described",
+      ),
+    ],
+  ),
+  ControlConfig.group(
+    title: "Date Input Examples",
+    children: [
+      ControlConfig.date(
+        key: "basic_date_picker",
+        title: "Pick a Date",
+        description: "Select a date using a calendar picker.",
+        hintText: "Select Date",
+        maxwidth: 160,
+      ),
+      ControlConfig.date(
+        key: "custom_date_picker",
+        title: "Pick a Date with Custom Range",
+        description: "Choose a date within a limited range and custom format.",
+        hintText: "DD/MM/YYYY",
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2001),
+        suffixIcon: const Icon(Icons.calendar_today),
+        maxwidth: 200,
+      ),
+      ControlConfig.date(
+        key: "styled_date_picker",
+        title: "Styled Date Picker",
+        description: "A date picker with custom input decoration.",
+        hintText: "DD/MM/YYYY",
+        maxwidth: 240,
+        inputDecoration: InputDecoration(
+          fillColor: Colors.deepPurple[200],
+          filled: true,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
+    ],
+  ),
+  ControlConfig.group(
+    title: 'Text',
+    children: [
+      ControlConfig.text(
+        key: "text_1",
+        title: "My Text",
+        description: "Described",
+        maxLines: 3,
+      ),
+      ControlConfig.text(
+        key: "text_2",
+        title: "Numeric Input",
+        description: "Described",
+        hintText: "Enter numbers only",
+        keyboardType: TextInputType.number,
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       ),
     ],
   ),
