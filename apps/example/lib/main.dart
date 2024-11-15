@@ -58,6 +58,42 @@ var settingControls = <SettingsControlConfig>[
     ],
   ),
   ControlConfig.group(
+    title: "Date Input Examples",
+    children: [
+      ControlConfig.date(
+        key: "basic_date_picker",
+        title: "Pick a Date",
+        description: "Select a date using a calendar picker.",
+        hintText: "Select Date",
+        maxwidth: 160,
+      ),
+      ControlConfig.date(
+        key: "custom_date_picker",
+        title: "Pick a Date with Custom Range",
+        description: "Choose a date within a limited range and custom format.",
+        hintText: "DD/MM/YYYY",
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2001),
+        suffixIcon: const Icon(Icons.calendar_today),
+        maxwidth: 200,
+      ),
+      ControlConfig.date(
+        key: "styled_date_picker",
+        title: "Styled Date Picker",
+        description: "A date picker with custom input decoration.",
+        hintText: "DD/MM/YYYY",
+        maxwidth: 240,
+        inputDecoration: InputDecoration(
+          fillColor: Colors.deepPurple[200],
+          filled: true,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      ),
+    ],
+  ),
+  ControlConfig.group(
     title: "Radio Options",
     children: [
       ControlConfig.radio(
