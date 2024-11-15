@@ -24,6 +24,23 @@ var settingControls = <SettingsControlConfig>[
     ],
   ),
   ControlConfig.group(
+    title: "Radio Options",
+    children: [
+      ControlConfig.radio(
+        key: "radio_1",
+        title: "My Radio",
+        description: "Described",
+        options: ["Light", "Dark", "Adaptive Control"],
+      ),
+      ControlConfig.radio(
+        key: "radio_2",
+        title: "My Radio",
+        description: "Described",
+        options: ["Small", "Medium", "Large", "Extra Large"],
+      ),
+    ],
+  ),
+  ControlConfig.group(
     title: "Toggles",
     children: [
       ControlConfig.toggle(
@@ -39,23 +56,6 @@ var settingControls = <SettingsControlConfig>[
         key: "test_2",
         title: "My Toggle",
         description: "Described",
-      ),
-    ],
-  ),
-  ControlConfig.group(
-    title: "Radio Options",
-    children: [
-      ControlConfig.radio(
-        key: "radio_1",
-        title: "My Radio",
-        description: "Described",
-        options: ["Light", "Dark", "Adaptive Control"],
-      ),
-      ControlConfig.radio(
-        key: "radio_2",
-        title: "My Radio",
-        description: "Described",
-        options: ["Small", "Medium", "Large", "Extra Large"],
       ),
     ],
   ),
