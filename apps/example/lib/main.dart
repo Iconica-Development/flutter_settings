@@ -1,6 +1,7 @@
 import 'package:device_settings_repository/device_settings_repository.dart';
 import 'package:example/my_image_control.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_settings/flutter_settings.dart';
 import 'package:settings_repository/settings_repository.dart';
 
@@ -30,10 +31,6 @@ var settingControls = <SettingsControlConfig>[
         key: "test_1",
         title: "My Toggle",
         description: "Described",
-      ),
-      TextControlConfig(
-        title: "Hello World",
-        key: "text_key_1",
       ),
       ControlConfig.toggle(
         key: "test_2",
@@ -90,6 +87,25 @@ var settingControls = <SettingsControlConfig>[
             borderRadius: BorderRadius.circular(8),
           ),
         ),
+      ),
+    ],
+  ),
+  ControlConfig.group(
+    title: 'Text',
+    children: [
+      ControlConfig.text(
+        key: "text_1",
+        title: "My Text",
+        description: "Described",
+        maxLines: 3,
+      ),
+      ControlConfig.text(
+        key: "text_2",
+        title: "Numeric Input",
+        description: "Described",
+        hintText: "Enter numbers only",
+        keyboardType: TextInputType.number,
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       ),
     ],
   ),
