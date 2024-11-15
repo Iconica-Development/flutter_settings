@@ -38,6 +38,7 @@ dependencies:
   device_settings_repository:
     path: ../../packages/device_settings_repository
   image_picker: ^1.1.2
+  intl: ^0.20.0
 
 dev_dependencies:
   flutter_test:
