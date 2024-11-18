@@ -1,3 +1,5 @@
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "package:flutter_settings/flutter_settings.dart";
 import "package:flutter_settings/src/config/controls/radio.dart";
 import "package:settings_repository/settings_repository.dart";
@@ -24,6 +26,31 @@ abstract final class ControlConfig {
         title: title,
         description: description,
         options: options,
+        initialValue: SettingsControl(key: key),
+        wrapperBuilder: wrapperBuilder ?? defaultDescriptionTitleControlWrapper,
+      );
+
+  ///
+  static TextControlConfig text({
+    required String key,
+    required String title,
+    String? description,
+    String? hintText,
+    InputDecoration? decoration,
+    String? Function(String?)? validator,
+    List<TextInputFormatter>? inputFormatters,
+    TextInputType keyboardType = TextInputType.text,
+    int maxLines = 1,
+    ControlWrapperBuilder<String, TextControlConfig>? wrapperBuilder,
+  }) =>
+      TextControlConfig(
+        title: title,
+        description: description,
+        hintText: hintText,
+        validator: validator,
+        inputFormatters: inputFormatters,
+        keyboardType: keyboardType,
+        maxLines: maxLines,
         initialValue: SettingsControl(key: key),
         wrapperBuilder: wrapperBuilder ?? defaultDescriptionTitleControlWrapper,
       );

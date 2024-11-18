@@ -1,83 +1,62 @@
 import "package:flutter/material.dart";
-import "package:flutter_settings/src/config/controls/base.dart";
-import "package:flutter_settings/src/config/defaults.dart";
-import "package:flutter_settings/src/service/settings_control_controller.dart";
+import "package:flutter/services.dart";
+import "package:flutter_settings/flutter_settings.dart";
 import "package:settings_repository/settings_repository.dart";
 
-///
+/// Text Control Configuration
 class TextControlConfig
     extends DescriptiveTitleControlConfig<String, TextControlConfig> {
-  ///
+  /// Constructor for Text Control Config
   TextControlConfig({
     required super.title,
-    required String key,
+    required super.description,
+    required super.initialValue,
     this.decoration,
-    super.description,
+    this.hintText,
+    this.validator,
+    this.inputFormatters,
+    this.keyboardType = TextInputType.text,
+    this.maxLines = 1,
     super.wrapperBuilder = defaultDescriptionTitleControlWrapper,
-  }) : super(
-          initialValue: SettingsControl<String>(key: key),
-        );
+  });
 
-  ///
+  /// Optional decoration for the textFormField
   final InputDecoration? decoration;
+
+  /// Hint text displayed in the text field
+  final String? hintText;
+
+  /// Optional validator function for the text input
+  final String? Function(String?)? validator;
+
+  /// Input formatters to limit input types, e.g., numerical input only
+  final List<TextInputFormatter>? inputFormatters;
+
+  /// Keyboard type for the text field, e.g., text, number, email
+  final TextInputType keyboardType;
+
+  /// Maximum number of lines for multiline text input
+  final int maxLines;
 
   @override
   Widget buildSetting(
     BuildContext context,
     SettingsControl<String> control,
     SettingsControlController controller,
-  ) =>
-      SizedBox(
-        width: 150,
-        child: _TextControl(
-          value: control.value ?? "",
-          onChanged: (value) async {
-            await controller.updateControl(
-              control.update(value),
-            );
-          },
-          decoration: decoration,
-        ),
-      );
-}
-
-class _TextControl extends StatefulWidget {
-  const _TextControl({
-    required this.value,
-    required this.onChanged,
-    required this.decoration,
-  });
-
-  ///
-  final String value;
-  final void Function(String value) onChanged;
-  final InputDecoration? decoration;
-
-  @override
-  State<_TextControl> createState() => _TextControlState();
-}
-
-class _TextControlState extends State<_TextControl> {
-  late final controller = TextEditingController(text: widget.value);
-
-  @override
-  void didUpdateWidget(covariant _TextControl oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.value != widget.value && widget.value != controller.text) {
-      controller.text = widget.value;
-    }
+  ) {
+    Theme.of(context);
+    return Expanded(
+      child: TextFormField(
+        initialValue: control.value,
+        decoration: decoration,
+        keyboardType: keyboardType,
+        validator: validator,
+        inputFormatters: inputFormatters,
+        maxLines: maxLines,
+        onChanged: (String value) async {
+          await controller.updateControl(control.update(value));
+        },
+      ),
+    );
   }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => TextField(
-        controller: controller,
-        decoration: widget.decoration,
-        onChanged: widget.onChanged,
-      );
 }

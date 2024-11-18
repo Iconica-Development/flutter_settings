@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_settings_repository/firebase_settings_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_settings/flutter_settings.dart';
 import 'package:settings_repository/settings_repository.dart';
 
@@ -31,14 +32,29 @@ var controls = [
         title: "My Toggle",
         description: "Described",
       ),
-      TextControlConfig(
-        title: "Hello World",
-        key: "text_key_1",
-      ),
       ControlConfig.toggle(
         key: "test_2",
         title: "My Toggle",
         description: "Described",
+      ),
+    ],
+  ),
+  ControlConfig.group(
+    title: 'Text',
+    children: [
+      ControlConfig.text(
+        key: "text_1",
+        title: "My Text",
+        description: "Described",
+        maxLines: 3,
+      ),
+      ControlConfig.text(
+        key: "text_2",
+        title: "Numeric Input",
+        description: "Described",
+        hintText: "Enter numbers only",
+        keyboardType: TextInputType.number,
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       ),
     ],
   ),
