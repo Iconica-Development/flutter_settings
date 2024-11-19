@@ -24,6 +24,24 @@ var settingControls = <SettingsControlConfig>[
     ],
   ),
   ControlConfig.group(
+    title: "Time Input",
+    children: [
+      ControlConfig.time(
+        key: "basic_time_picker",
+        title: "My Time Picker",
+        description: "Described.",
+        hintText: "Select Time",
+      ),
+      ControlConfig.time(
+        key: "custom_time_picker",
+        title: "Time Picker - 12H Format",
+        description: "Described.",
+        hintText: "HH:mm AM/PM",
+        timeFormat: ["hh", ":", "mm", " ", "a"],
+      ),
+    ],
+  ),
+  ControlConfig.group(
     title: "Toggles",
     children: [
       ControlConfig.toggle(
