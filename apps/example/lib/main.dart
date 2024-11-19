@@ -3,7 +3,9 @@ import 'package:example/my_image_control.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_settings/flutter_settings.dart';
+import 'package:intl/intl.dart';
 import 'package:settings_repository/settings_repository.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 final sharedPreferencesRepository = DeviceSettingsRepository();
 
@@ -22,6 +24,24 @@ var settingControls = <SettingsControlConfig>[
         initialValue: SettingsControl(key: "int_slider_2"),
       ),
       MyImageControl(key: "my_image", title: "Mikey"),
+    ],
+  ),
+  ControlConfig.group(
+    title: "Time Input",
+    children: [
+      ControlConfig.time(
+        key: "basic_time_picker",
+        title: "My Time Picker",
+        description: "Described.",
+        hintText: "Select Time",
+      ),
+      ControlConfig.time(
+        key: "custom_time_picker",
+        title: "Time Picker - 12H Format",
+        description: "Described.",
+        hintText: "HH:mm AM/PM",
+        timeFormat: DateFormat("hh:mm a"),
+      ),
     ],
   ),
   ControlConfig.group(
@@ -226,6 +246,13 @@ class MyApp extends StatelessWidget {
       repository: sharedPreferencesRepository,
     );
     return MaterialApp(
+      locale: const Locale("nl", "NL"),
+      localizationsDelegates: const [
+        GlobalWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale("nl", "NL")],
       home: Stack(
         children: [
           SettingsUserStory(
