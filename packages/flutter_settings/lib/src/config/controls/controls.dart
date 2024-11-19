@@ -1,5 +1,7 @@
+import "package:flutter/material.dart";
 import "package:flutter_settings/flutter_settings.dart";
 import "package:flutter_settings/src/config/controls/radio.dart";
+import "package:flutter_settings/src/config/controls/time.dart";
 import "package:settings_repository/settings_repository.dart";
 
 export "base.dart";
@@ -24,6 +26,27 @@ abstract final class ControlConfig {
         title: title,
         description: description,
         options: options,
+        initialValue: SettingsControl(key: key),
+        wrapperBuilder: wrapperBuilder ?? defaultDescriptionTitleControlWrapper,
+      );
+
+  ///
+  static TimeControlConfig time({
+    required String key,
+    required String title,
+    String? description,
+    String? hintText,
+    List<String> timeFormat = const ["HH", ":", "mm"],
+    Widget? suffixIcon,
+    InputDecoration? inputDecoration,
+    ControlWrapperBuilder<String, TimeControlConfig>? wrapperBuilder,
+  }) =>
+      TimeControlConfig(
+        title: title,
+        description: description,
+        hintText: hintText,
+        timeFormat: timeFormat,
+        suffixIcon: suffixIcon,
         initialValue: SettingsControl(key: key),
         wrapperBuilder: wrapperBuilder ?? defaultDescriptionTitleControlWrapper,
       );
