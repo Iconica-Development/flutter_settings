@@ -13,7 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_hooks: ^0.20.5
-  intl: ^0.20.0
+  intl: any
   settings_repository:
     hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub
     version: ^1.0.0
