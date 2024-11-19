@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   flutter_settings:
     path: ../../packages/flutter_settings
@@ -38,7 +40,7 @@ dependencies:
   device_settings_repository:
     path: ../../packages/device_settings_repository
   image_picker: ^1.1.2
-  intl: ^0.20.0
+  intl: any
 
 dev_dependencies:
   flutter_test:
