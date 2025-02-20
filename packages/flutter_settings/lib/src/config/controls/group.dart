@@ -13,6 +13,7 @@ class GroupControlConfig
     required this.children,
     required super.initialValue,
     required super.wrapperBuilder,
+    super.dependencies = const [],
   }) : super();
 
   ///

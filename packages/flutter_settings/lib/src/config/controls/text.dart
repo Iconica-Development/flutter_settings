@@ -18,6 +18,7 @@ class TextControlConfig
     this.keyboardType = TextInputType.text,
     this.maxLines = 1,
     super.wrapperBuilder = defaultDescriptionTitleControlWrapper,
+    super.dependencies = const [],
   });
 
   /// Optional decoration for the textFormField
