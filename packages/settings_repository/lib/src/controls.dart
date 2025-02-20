@@ -1,11 +1,12 @@
 import "package:settings_repository/src/settings_model.dart";
 
 class SettingsControl<T> {
-  SettingsControl({
+  const SettingsControl({
     required this.key,
     this.value,
     this.defaultValue,
     this.children,
+    this.dependencies = const [],
   }) : changedValue = value;
 
   SettingsControl._internal({
@@ -14,6 +15,7 @@ class SettingsControl<T> {
     required this.defaultValue,
     required this.changedValue,
     required this.children,
+    required this.dependencies,
   });
 
   final T? value;
@@ -22,6 +24,7 @@ class SettingsControl<T> {
   final T? defaultValue;
 
   final List<SettingsControl>? children;
+  final List<SettingsControl>? dependencies;
 
   bool get requiresSaving => value != changedValue;
 
@@ -47,6 +50,7 @@ class SettingsControl<T> {
   SettingsControl<T> bindMap(SettingsModel settingsModel) {
     var value = this.value;
     var children = this.children;
+    var dependencies = this.dependencies;
 
     if (key != null) {
       value = settingsModel.getSetting(key!) ?? defaultValue;
@@ -56,11 +60,18 @@ class SettingsControl<T> {
       children = children.map((e) => e.bindMap(settingsModel)).toList();
     }
 
+    if (dependencies != null) {
+      dependencies = dependencies
+          .map((dependencie) => dependencie.bindMap(settingsModel))
+          .toList();
+    }
+
     return SettingsControl<T>(
       key: key,
       value: value,
       defaultValue: defaultValue,
       children: children,
+      dependencies: dependencies,
     );
   }
 
@@ -78,6 +89,7 @@ class SettingsControl<T> {
     T? value,
     T? changedValue,
     List<SettingsControl>? children,
+    List<SettingsControl>? dependencies,
   }) =>
       SettingsControl._internal(
         key: key,
@@ -85,7 +97,17 @@ class SettingsControl<T> {
         changedValue: changedValue ?? this.changedValue,
         defaultValue: defaultValue,
         children: children ?? this.children,
+        dependencies: dependencies ?? this.dependencies,
       );
+
+  SettingsControl? getDependency(String? key) {
+    if (key == null) {
+      return null;
+    }
+    return dependencies
+        ?.where((dependency) => dependency.key == key)
+        .firstOrNull;
+  }
 }
 
 extension ToSettingsModel on List<SettingsControl> {

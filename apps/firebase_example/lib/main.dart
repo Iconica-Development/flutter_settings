@@ -15,12 +15,12 @@ var controls = [
       MyCustomSetting(
         title: "Title",
         description: "My description",
-        initialValue: SettingsControl(key: "int_slider_1"),
+        initialValue: const SettingsControl(key: "int_slider_1"),
       ),
       MyCustomSetting(
         title: "Title",
         description: "My description",
-        initialValue: SettingsControl(key: "int_slider_2"),
+        initialValue: const SettingsControl(key: "int_slider_2"),
       ),
     ],
   ),
@@ -123,6 +123,7 @@ class MyCustomSetting
     required super.description,
     required super.initialValue,
     super.wrapperBuilder = defaultDescriptionTitleControlWrapper,
+    super.dependencies = const [],
   }) : super();
 
   @override

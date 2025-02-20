@@ -6,7 +6,7 @@ var controls = <SettingsControlConfig>[
   MyCustomSetting(
     title: "Amazing",
     description: "Control",
-    initialValue: SettingsControl(key: "my_custom_int"),
+    initialValue: const SettingsControl(key: "my_custom_int"),
   ),
   ControlConfig.page(
     title: "Wowy",
@@ -29,7 +29,7 @@ var controls = <SettingsControlConfig>[
       MyCustomSetting(
         title: "Amazing",
         description: "Control",
-        initialValue: SettingsControl(key: "my_custom_int"),
+        initialValue: const SettingsControl(key: "my_custom_int"),
       ),
       ControlConfig.page(
         title: "some subpage",
@@ -118,6 +118,7 @@ class MyCustomSetting
     required super.description,
     required super.initialValue,
     super.wrapperBuilder = defaultDescriptionTitleControlWrapper,
+    super.dependencies = const [],
   }) : super();
 
   @override

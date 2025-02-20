@@ -11,6 +11,7 @@ class ToggleControlConfig
     required super.description,
     required super.initialValue,
     super.wrapperBuilder = defaultDescriptionTitleControlWrapper,
+    super.dependencies = const [],
   }) : super();
 
   @override
