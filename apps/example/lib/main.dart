@@ -120,7 +120,8 @@ List<SettingsControlConfig> getSettingControls() => <SettingsControlConfig>[
             maxLines: 3,
             dependencies: [
               ControlDependency(
-                control: const SettingsControl<String>(key: "styled_date_picker"),
+                control:
+                    const SettingsControl<String>(key: "styled_date_picker"),
                 builder: (context, child, control) {
                   var value = control.value;
                   var format = DateFormat();
