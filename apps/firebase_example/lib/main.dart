@@ -123,6 +123,7 @@ class MyCustomSetting
     required super.description,
     required super.initialValue,
     super.wrapperBuilder = defaultDescriptionTitleControlWrapper,
+    super.dependencies = const [],
   }) : super();
 
   @override

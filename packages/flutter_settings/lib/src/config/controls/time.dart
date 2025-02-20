@@ -17,6 +17,7 @@ class TimeControlConfig
     this.suffixIcon,
     this.timeFormat,
     super.wrapperBuilder = defaultDescriptionTitleControlWrapper,
+    super.dependencies = const [],
   });
 
   /// Hint text for the time picker

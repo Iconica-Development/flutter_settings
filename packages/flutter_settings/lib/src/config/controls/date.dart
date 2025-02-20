@@ -20,6 +20,7 @@ class DateControlConfig
     this.lastDate,
     this.inputDecoration,
     super.wrapperBuilder = defaultDescriptionTitleControlWrapper,
+    super.dependencies = const [],
   });
 
   /// Max width for the input field

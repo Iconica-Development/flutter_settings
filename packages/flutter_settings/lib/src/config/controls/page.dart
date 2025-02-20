@@ -13,6 +13,7 @@ class PageControlConfig
     required super.initialValue,
     required super.wrapperBuilder,
     super.description,
+    super.dependencies = const [],
   }) : super();
 
   ///

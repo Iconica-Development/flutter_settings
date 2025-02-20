@@ -15,6 +15,7 @@ class DropdownControlConfig
     this.suffixIcon,
     this.inputDecoration, // Custom decoration parameter
     super.wrapperBuilder = defaultDescriptionTitleControlWrapper,
+    super.dependencies = const [],
   });
 
   /// List of items for the dropdown control
