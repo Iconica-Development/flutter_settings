@@ -3,7 +3,23 @@ import "package:settings_repository/src/save_mode.dart";
 import "package:settings_repository/src/settings_model.dart";
 import "package:settings_repository/src/settings_repository.dart";
 
+/// A service for handling the transformation between [SettingsModel]
+/// and a list [SettingsControl].
+/// 
+/// This service contains no state and can be created in any context, given that
+/// the correct repository is provided. 
 class SettingsService {
+  /// Create an instance of this service within a given [namespace].
+  /// 
+  /// The [namespace] is an extra reference to save settings in. The purpose of
+  /// the [namespace] property is to allow for multi-domain usage of this
+  /// package without having to think about possible duplicate key usage cross
+  /// domains.
+  /// 
+  /// The method of saving and reading settings is determined by the type of
+  /// [repository] given. You can look at existing packages, like the firebase
+  /// or device settings repositories, or if you are testing use the 
+  /// [LocalSettingsRepository]
   const SettingsService({
     required String namespace,
     required SettingsRepository repository,

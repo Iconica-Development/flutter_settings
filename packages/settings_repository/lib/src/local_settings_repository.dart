@@ -3,6 +3,7 @@ import "dart:async";
 import "package:rxdart/subjects.dart";
 import "package:settings_repository/settings_repository.dart";
 
+/// An in memory implementation of [SettingsRepository]
 class LocalSettingsRepository implements SettingsRepository {
   factory LocalSettingsRepository() =>
       _instance ??= LocalSettingsRepository._();
