@@ -25,12 +25,14 @@ abstract final class ControlConfig {
     required String title,
     String? description,
     ControlWrapperBuilder<bool, CheckBoxControlConfig>? wrapperBuilder,
+    List<SettingsDependency> dependencies = const [],
   }) =>
       CheckBoxControlConfig(
         title: title,
         description: description,
         initialValue: SettingsControl(key: key),
         wrapperBuilder: wrapperBuilder ?? defaultDescriptionTitleControlWrapper,
+        dependencies: dependencies,
       );
 
   ///
@@ -40,6 +42,7 @@ abstract final class ControlConfig {
     required List<T> options,
     String? description,
     ControlWrapperBuilder<T, RadioControlConfig<T>>? wrapperBuilder,
+    List<SettingsDependency> dependencies = const [],
   }) =>
       RadioControlConfig(
         title: title,
@@ -47,6 +50,7 @@ abstract final class ControlConfig {
         options: options,
         initialValue: SettingsControl(key: key),
         wrapperBuilder: wrapperBuilder ?? defaultDescriptionTitleControlWrapper,
+        dependencies: dependencies,
       );
 
   ///
@@ -62,6 +66,7 @@ abstract final class ControlConfig {
     DateTime? lastDate,
     InputDecoration? inputDecoration,
     ControlWrapperBuilder<String, DateControlConfig>? wrapperBuilder,
+    List<SettingsDependency> dependencies = const [],
   }) =>
       DateControlConfig(
         title: title,
@@ -75,6 +80,7 @@ abstract final class ControlConfig {
         inputDecoration: inputDecoration,
         initialValue: SettingsControl(key: key),
         wrapperBuilder: wrapperBuilder ?? defaultDescriptionTitleControlWrapper,
+        dependencies: dependencies,
       );
 
   ///
@@ -89,6 +95,7 @@ abstract final class ControlConfig {
     TextInputType keyboardType = TextInputType.text,
     int maxLines = 1,
     ControlWrapperBuilder<String, TextControlConfig>? wrapperBuilder,
+    List<SettingsDependency> dependencies = const [],
   }) =>
       TextControlConfig(
         title: title,
@@ -98,8 +105,12 @@ abstract final class ControlConfig {
         inputFormatters: inputFormatters,
         keyboardType: keyboardType,
         maxLines: maxLines,
-        initialValue: SettingsControl(key: key),
+        initialValue: SettingsControl(
+          key: key,
+          dependencies: dependencies.getControlDependencies(),
+        ),
         wrapperBuilder: wrapperBuilder ?? defaultDescriptionTitleControlWrapper,
+        dependencies: dependencies,
       );
 
   ///
@@ -112,13 +123,17 @@ abstract final class ControlConfig {
     Widget? suffixIcon,
     InputDecoration? inputDecoration,
     ControlWrapperBuilder<String, DropdownControlConfig>? wrapperBuilder,
+    List<SettingsDependency> dependencies = const [],
   }) =>
       DropdownControlConfig(
         title: title,
         description: description,
         hintText: hintText,
         options: options,
-        initialValue: SettingsControl(key: key),
+        initialValue: SettingsControl(
+          key: key,
+          dependencies: dependencies.getControlDependencies(),
+        ),
         wrapperBuilder: wrapperBuilder ?? defaultDescriptionTitleControlWrapper,
       );
 
@@ -132,6 +147,7 @@ abstract final class ControlConfig {
     Widget? suffixIcon,
     InputDecoration? inputDecoration,
     ControlWrapperBuilder<String, TimeControlConfig>? wrapperBuilder,
+    List<SettingsDependency> dependencies = const [],
   }) =>
       TimeControlConfig(
         title: title,
@@ -139,8 +155,12 @@ abstract final class ControlConfig {
         hintText: hintText,
         timeFormat: timeFormat,
         suffixIcon: suffixIcon,
-        initialValue: SettingsControl(key: key),
+        initialValue: SettingsControl(
+          key: key,
+          dependencies: dependencies.getControlDependencies(),
+        ),
         wrapperBuilder: wrapperBuilder ?? defaultDescriptionTitleControlWrapper,
+        dependencies: dependencies,
       );
 
   ///
@@ -149,12 +169,17 @@ abstract final class ControlConfig {
     required String title,
     String? description,
     ControlWrapperBuilder<bool, ToggleControlConfig>? wrapperBuilder,
+    List<SettingsDependency> dependencies = const [],
   }) =>
       ToggleControlConfig(
         title: title,
         description: description,
-        initialValue: SettingsControl(key: key),
+        initialValue: SettingsControl(
+          key: key,
+          dependencies: dependencies.getControlDependencies(),
+        ),
         wrapperBuilder: wrapperBuilder ?? defaultDescriptionTitleControlWrapper,
+        dependencies: dependencies,
       );
 
   ///
@@ -163,6 +188,7 @@ abstract final class ControlConfig {
     required List<SettingsControlConfig> children,
     ControlWrapperBuilder<Never, PageControlConfig>? wrapperBuilder,
     String? description,
+    List<SettingsDependency> dependencies = const [],
   }) {
     assert(
       children.isNotEmpty,
@@ -174,8 +200,13 @@ abstract final class ControlConfig {
       children: children,
       title: title,
       description: description,
-      initialValue: SettingsControl(key: null, children: innerControls),
+      initialValue: SettingsControl(
+        key: null,
+        children: innerControls,
+        dependencies: dependencies.getControlDependencies(),
+      ),
       wrapperBuilder: wrapperBuilder ?? defaultDescriptionTitleControlWrapper,
+      dependencies: dependencies,
     );
   }
 
@@ -185,6 +216,7 @@ abstract final class ControlConfig {
     required List<SettingsControlConfig> children,
     ControlWrapperBuilder<Never, GroupControlConfig>? wrapperBuilder,
     String? description,
+    List<SettingsDependency> dependencies = const [],
   }) {
     assert(
       children.isNotEmpty,
@@ -196,8 +228,13 @@ abstract final class ControlConfig {
       description: description,
       children: children,
       title: title,
-      initialValue: SettingsControl(key: null, children: innerControls),
+      initialValue: SettingsControl(
+        key: null,
+        children: innerControls,
+        dependencies: dependencies.getControlDependencies(),
+      ),
       wrapperBuilder: wrapperBuilder ?? defaultGroupControlWrapper,
+      dependencies: dependencies,
     );
   }
 }

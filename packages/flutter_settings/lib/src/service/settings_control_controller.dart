@@ -40,6 +40,12 @@ class SettingsControlController extends ChangeNotifier {
             children: mapUncommittedControls(control.children!),
           );
         }
+
+        if (control.dependencies?.isNotEmpty ?? false) {
+          control = control.copyWith(
+            dependencies: mapUncommittedControls(control.dependencies!),
+          );
+        }
         return control;
       }).toList();
 

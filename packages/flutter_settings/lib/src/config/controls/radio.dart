@@ -12,6 +12,7 @@ class RadioControlConfig<T>
     required super.initialValue,
     required this.options,
     super.wrapperBuilder = defaultDescriptionTitleControlWrapper,
+    super.dependencies = const [],
   });
 
   ///
