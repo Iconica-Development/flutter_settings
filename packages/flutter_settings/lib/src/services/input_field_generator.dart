@@ -118,6 +118,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
                     onUpdate: widget.onUpdate,
                     controlWrapper: widget.controlWrapper,
                     groupWrapper: widget.groupWrapper,
+                    dismissKeyboardOnTap: widget.dismissKeyboardOnTap,
                   );
                 },
               ),
