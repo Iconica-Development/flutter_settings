@@ -226,7 +226,7 @@ class _InputFieldGeneratorState extends State<InputFieldGenerator> {
           _buildWithFocusNodeWrapper(
             FlutterFormInputPlainText(
               style: theme.textTheme.bodySmall,
-              maxLines: setting.maxLines ?? 1,
+              maxLines: setting.maxLines,
               initialValue: setting.value != "" && setting.value != null
                   ? setting.value
                   : setting.initialValue,
