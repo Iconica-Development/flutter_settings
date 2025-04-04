@@ -33,10 +33,13 @@ class SettingsScreen extends HookWidget {
     var settingsService = scope.service;
     var valueControls = controls.map((c) => c.initialValue).toList();
 
-    useEffect(() {
-      scope.popHandler.add(onExit);
-      return () => scope.popHandler.remove(onExit);
-    });
+    useEffect(
+      () {
+        scope.popHandler.add(onExit);
+        return () => scope.popHandler.remove(onExit);
+      },
+      [onExit],
+    );
 
     Future<void> moveToPage(PageControlConfig config) async {
       await Navigator.of(context).push(

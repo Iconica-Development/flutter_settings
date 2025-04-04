@@ -35,3 +35,40 @@ class SettingsScope extends InheritedWidget {
   static SettingsScope of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<SettingsScope>()!;
 }
+
+///
+class DynamicSettingsScope extends InheritedWidget {
+  ///
+  const DynamicSettingsScope({
+    required this.options,
+    required this.service,
+    required this.popHandler,
+    required super.child,
+    super.key,
+  });
+
+  ///
+  final DynamicSettingsOptions options;
+
+  ///
+  final PopHandler popHandler;
+
+  ///
+  final DynamicSettingsService service;
+
+  @override
+  bool updateShouldNotify(SettingsScope oldWidget) => options != options;
+
+  ///
+  static DynamicSettingsScope of(BuildContext context) {
+    var scope =
+        context.dependOnInheritedWidgetOfExactType<DynamicSettingsScope>();
+
+    assert(
+      scope != null,
+      "Make sure to use this widget within a DynamicSettingsScope",
+    );
+
+    return scope!;
+  }
+}

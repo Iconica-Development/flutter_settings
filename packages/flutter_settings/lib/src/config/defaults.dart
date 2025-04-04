@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_settings/src/config/controls/controls.dart";
+import "package:flutter_settings/src/config/options.dart";
 import "package:settings_repository/settings_repository.dart";
 
 ///
@@ -97,3 +98,17 @@ Widget defaultGroupControlWrapper(
     ],
   );
 }
+
+/// All mappings currently available for dynamic checkboxes
+const defaultDynamicSettingControlMappings =
+    <String, DynamicSettingToControlMapping>{
+  "checkbox": dynamicCheckboxMapping,
+};
+
+/// The mapping between a dynamic setting and a checkbox
+SettingsControlConfig dynamicCheckboxMapping(DynamicSetting setting, _) =>
+    ControlConfig.checkbox(
+      key: setting.key,
+      title: setting.title ?? "",
+      description: setting.description,
+    );
