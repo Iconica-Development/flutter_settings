@@ -11,9 +11,6 @@ enum SettingsSaveMode {
   /// Save settings when the user leaves the page
   onExitPage,
 
-  /// Save settings when the user leaves the settings screens
-  onExitUserstory,
-
   /// Save settings as soon as they are changed
   onChanged,
 

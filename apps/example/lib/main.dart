@@ -23,7 +23,6 @@ var settingControls = <SettingsControlConfig>[
         description: "My description",
         initialValue: SettingsControl(key: "int_slider_2"),
       ),
-      MyImageControl(key: "my_image", title: "Mikey"),
     ],
   ),
   ControlConfig.group(
@@ -202,7 +201,8 @@ var settingControls = <SettingsControlConfig>[
             description: "Described",
           ),
         ],
-      )
+      ),
+      MyImageControl(key: "my_image", title: "Mikey"),
     ],
   ),
 ];
@@ -260,7 +260,7 @@ class MyApp extends StatelessWidget {
             options: SettingsOptions(
               controls: settingControls,
               repository: sharedPreferencesRepository,
-              saveMode: SettingsSaveMode.button,
+              saveMode: SettingsSaveMode.onExitPage,
             ),
           ),
           Positioned(
