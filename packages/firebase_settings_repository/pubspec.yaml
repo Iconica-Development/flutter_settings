@@ -1,6 +1,6 @@
 name: firebase_settings_repository
 description: "A new Flutter package project."
-version: 1.0.0
+version: 7.0.0
 
 publish_to: https://forgejo.internal.iconica.nl/api/packages/internal/pub/
 
