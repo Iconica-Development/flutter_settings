@@ -6,7 +6,7 @@ import "package:settings_repository/settings_repository.dart";
 class DropdownControlConfig
     extends DescriptiveTitleControlConfig<String, DropdownControlConfig> {
   /// Constructor for Dropdown Control Config
-  DropdownControlConfig({
+  const DropdownControlConfig({
     required super.title,
     required super.description,
     required super.initialValue,

@@ -7,7 +7,7 @@ import "package:settings_repository/settings_repository.dart";
 class TextControlConfig
     extends DescriptiveTitleControlConfig<String, TextControlConfig> {
   /// Constructor for Text Control Config
-  TextControlConfig({
+  const TextControlConfig({
     required super.title,
     required super.description,
     required super.initialValue,
@@ -44,20 +44,18 @@ class TextControlConfig
     BuildContext context,
     SettingsControl<String> control,
     SettingsControlController controller,
-  ) {
-    Theme.of(context);
-    return Expanded(
-      child: TextFormField(
-        initialValue: control.value,
-        decoration: decoration,
-        keyboardType: keyboardType,
-        validator: validator,
-        inputFormatters: inputFormatters,
-        maxLines: maxLines,
-        onChanged: (String value) async {
-          await controller.updateControl(control.update(value));
-        },
-      ),
-    );
-  }
+  ) =>
+      Expanded(
+        child: TextFormField(
+          initialValue: control.value,
+          decoration: decoration,
+          keyboardType: keyboardType,
+          validator: validator,
+          inputFormatters: inputFormatters,
+          maxLines: maxLines,
+          onChanged: (String value) async {
+            await controller.updateControl(control.update(value));
+          },
+        ),
+      );
 }

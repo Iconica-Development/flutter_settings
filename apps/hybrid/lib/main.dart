@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_settings/flutter_settings.dart';
-import 'package:hybrid/settings.dart';
+import "package:flutter/material.dart";
+import "package:flutter_settings/flutter_settings.dart";
+import "package:hybrid/settings.dart";
 
 void main() {
   runApp(const HybridSettingsApp());
@@ -10,12 +10,10 @@ class HybridSettingsApp extends StatelessWidget {
   const HybridSettingsApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark(),
-      home: const HomeScreen(),
-    );
-  }
+  Widget build(BuildContext context) => MaterialApp(
+        theme: ThemeData.dark(),
+        home: const HomeScreen(),
+      );
 }
 
 class HomeScreen extends StatefulWidget {
@@ -34,13 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void openSettings() {
-    openSettingsForNamespace(
-      context,
-      namespace: settingsNamespace,
-      options: settingsOptions,
-    );
-  }
+  Future<void> openSettings() => openSettingsForNamespace(
+        context,
+        namespace: settingsNamespace,
+        options: settingsOptions,
+      );
 
   @override
   Widget build(BuildContext context) {

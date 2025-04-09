@@ -1,3 +1,11 @@
+## 7.0.0
+
+* Total rework of flutter_settings that allows for more complex settings pages and adds flutter_settings userstory
+
+## 6.0.0
+
+* Restructured flutter_settings to use multiple packages
+
 ## 5.3.0
 
 * Added option to dismiss keyboards when tapping outside of the keyboard. This can be disabled by setting `dismissKeyboardOnTap` to `false`

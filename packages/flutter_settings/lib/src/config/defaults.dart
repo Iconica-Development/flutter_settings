@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_settings/src/config/controls/controls.dart";
 import "package:settings_repository/settings_repository.dart";
 
-///
+/// A standard wrapper for configs that have a title
 Widget defaultTitleControlWrapper(
   BuildContext context,
   Widget child,
@@ -22,7 +22,7 @@ Widget defaultTitleControlWrapper(
   );
 }
 
-///
+/// A standard wrapper for configs that have a title and an optional description
 Widget defaultDescriptionTitleControlWrapper(
   BuildContext context,
   Widget child,
@@ -70,7 +70,7 @@ Widget defaultDescriptionTitleControlWrapper(
   );
 }
 
-///
+/// A default wrapper for the [GroupControlConfig]
 Widget defaultGroupControlWrapper(
   BuildContext context,
   Widget child,

@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 
-///
+/// A utility class for handling pops
 class PopHandler {
   /// Constructor
   PopHandler();

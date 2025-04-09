@@ -5,6 +5,7 @@ import "package:settings_repository/settings_repository.dart";
 
 /// An in memory implementation of [SettingsRepository]
 class LocalSettingsRepository implements SettingsRepository {
+  /// Creates an instance of [LocalSettingsRepository]
   factory LocalSettingsRepository() =>
       _instance ??= LocalSettingsRepository._();
 
@@ -12,13 +13,17 @@ class LocalSettingsRepository implements SettingsRepository {
 
   static LocalSettingsRepository? _instance;
 
+  /// Stores all settings in memory
   final Map<String, dynamic> settingsStore = {};
 
+  /// A stream controller to notify listeners of changes
   final StreamController<SettingsModel> settingsStream = BehaviorSubject();
 
   @override
-  Stream<SettingsModel> getSettingsForNamespace(String namespace) =>
-      settingsStream.stream;
+  Stream<SettingsModel> getSettingsForNamespace(String namespace) {
+    settingsStream.add(SettingsModel(data: settingsStore));
+    return settingsStream.stream;
+  }
 
   @override
   Future<void> saveSettingsForNamespace(

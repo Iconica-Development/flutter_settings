@@ -9,7 +9,7 @@ import "package:settings_repository/settings_repository.dart";
 class TimeControlConfig
     extends DescriptiveTitleControlConfig<String, TimeControlConfig> {
   /// Constructor for Time Control Config
-  TimeControlConfig({
+  const TimeControlConfig({
     required super.title,
     required super.description,
     required super.initialValue,

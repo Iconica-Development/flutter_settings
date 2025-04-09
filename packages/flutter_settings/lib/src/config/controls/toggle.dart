@@ -6,7 +6,7 @@ import "package:settings_repository/settings_repository.dart";
 class ToggleControlConfig
     extends DescriptiveTitleControlConfig<bool, ToggleControlConfig> {
   ///
-  ToggleControlConfig({
+  const ToggleControlConfig({
     required super.title,
     required super.description,
     required super.initialValue,

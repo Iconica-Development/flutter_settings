@@ -6,7 +6,7 @@ import "package:settings_repository/settings_repository.dart";
 class CheckBoxControlConfig
     extends DescriptiveTitleControlConfig<bool, CheckBoxControlConfig> {
   ///
-  CheckBoxControlConfig({
+  const CheckBoxControlConfig({
     required super.title,
     required super.description,
     required super.initialValue,

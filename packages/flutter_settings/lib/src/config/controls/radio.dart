@@ -6,7 +6,7 @@ import "package:settings_repository/settings_repository.dart";
 class RadioControlConfig<T>
     extends DescriptiveTitleControlConfig<T, RadioControlConfig<T>> {
   ///
-  RadioControlConfig({
+  const RadioControlConfig({
     required super.title,
     required super.description,
     required super.initialValue,
@@ -27,7 +27,7 @@ class RadioControlConfig<T>
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          for (var option in options)
+          for (var option in options) ...[
             ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 200),
               child: RadioListTile<T>(
@@ -41,6 +41,7 @@ class RadioControlConfig<T>
                 },
               ),
             ),
+          ],
         ],
       );
 }
