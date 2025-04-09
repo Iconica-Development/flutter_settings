@@ -15,7 +15,7 @@ typedef ControlWrapperBuilder<T, C extends SettingsControlConfig<T, C>> = Widget
 ///
 abstract class SettingsControlConfig<T, C extends SettingsControlConfig<T, C>> {
   ///
-  SettingsControlConfig({
+  const SettingsControlConfig({
     required this.initialValue,
     required this.wrapperBuilder,
     required this.dependencies,
@@ -80,7 +80,7 @@ abstract class SettingsControlConfig<T, C extends SettingsControlConfig<T, C>> {
 abstract class TitleControlConfig<T, C extends SettingsControlConfig<T, C>>
     extends SettingsControlConfig<T, C> {
   ///
-  TitleControlConfig({
+  const TitleControlConfig({
     required this.title,
     required super.initialValue,
     required super.wrapperBuilder,
@@ -95,7 +95,7 @@ abstract class TitleControlConfig<T, C extends SettingsControlConfig<T, C>>
 abstract class DescriptiveTitleControlConfig<T,
     C extends TitleControlConfig<T, C>> extends TitleControlConfig<T, C> {
   ///
-  DescriptiveTitleControlConfig({
+  const DescriptiveTitleControlConfig({
     required this.description,
     required super.title,
     required super.initialValue,

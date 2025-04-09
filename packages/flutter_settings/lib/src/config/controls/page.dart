@@ -7,7 +7,7 @@ import "package:settings_repository/settings_repository.dart";
 class PageControlConfig
     extends DescriptiveTitleControlConfig<Never, PageControlConfig> {
   ///
-  PageControlConfig({
+  const PageControlConfig({
     required this.children,
     required super.title,
     required super.initialValue,

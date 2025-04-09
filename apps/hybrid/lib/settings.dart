@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_settings/flutter_settings.dart';
-import 'package:settings_repository/settings_repository.dart';
-import 'package:device_settings_repository/device_settings_repository.dart';
+import "package:device_settings_repository/device_settings_repository.dart";
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:flutter_settings/flutter_settings.dart";
+import "package:settings_repository/settings_repository.dart";
 
 const settingsNamespace = "counter_settings";
 
@@ -21,7 +21,7 @@ final settingsService = SettingsService(
   repository: repository,
 );
 
-var controls = <SettingsControlConfig>[
+var _controls = <SettingsControlConfig>[
   ControlConfig.checkbox(
     key: "enable_counter_controls",
     title: "Enable Counter controls",
@@ -52,7 +52,7 @@ var controls = <SettingsControlConfig>[
         key: "counter_decrement",
         title: "By how much to decrement the counter",
         validator: _validatePositiveNumber,
-        keyboardType: const TextInputType.numberWithOptions(),
+        keyboardType: TextInputType.number,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp("[0-9]")),
         ],
@@ -61,7 +61,7 @@ var controls = <SettingsControlConfig>[
   ),
 ];
 
-var settingsOptions = SettingsOptions(controls: controls);
+final settingsOptions = SettingsOptions(controls: _controls);
 
 String? _validatePositiveNumber(value) {
   if (value == null) {

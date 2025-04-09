@@ -1,3 +1,5 @@
+/// Functionality to save settings based on provided controls
+///
 /// Best used in combination with the flutter_settings user story.
 ///
 /// You can find implementation for the settings_repository below:

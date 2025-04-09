@@ -8,15 +8,22 @@ import "package:rxdart/subjects.dart";
 import "package:settings_repository/settings_repository.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
+/// A repository that saves all settings on device through the
+/// Shared preferences user-story
 class DeviceSettingsRepository implements SettingsRepository {
   SharedPreferences? _sharedPreferences;
 
   Future<SharedPreferences> get _prefs async =>
       _sharedPreferences ?? await SharedPreferences.getInstance();
 
+  /// Stores the settings per namespace
   Map<String, Map<String, dynamic>> namespaces = {};
+
+  /// A stream controller to notify listeners of changes per namespace
   Map<String, BehaviorSubject<SettingsModel>> streams = {};
 
+  /// Gets the stream controller for a given namespace or creates a new one
+  /// if it doesn't exist
   BehaviorSubject<SettingsModel> getControllerForNamespace(String namespace) =>
       streams[namespace] ??= BehaviorSubject<SettingsModel>();
 

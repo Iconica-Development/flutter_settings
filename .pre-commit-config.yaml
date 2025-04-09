@@ -5,12 +5,20 @@ repos:
   - id: dart-format
     args: [
       apps/example
+      apps/firebase_example
+      apps/hybrid
       packages/flutter_settings
       packages/flutter_settings_repository
+      packages/device_settings_repository
+      packages/firebase_settings_repository
     ]
   - id: flutter-analyze
     args: [
       apps/example
+      apps/firebase_example
+      apps/hybrid
       packages/flutter_settings
       packages/flutter_settings_repository
+      packages/device_settings_repository
+      packages/firebase_settings_repository
     ]

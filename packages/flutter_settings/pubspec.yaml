@@ -16,7 +16,7 @@ dependencies:
   intl: any
   settings_repository:
     hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub
-    version: ^1.0.0
+    version: ^7.0.0
   flutter_iconica_utilities:
     version: ^0.5.0
     hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub
@@ -26,8 +26,5 @@ dev_dependencies:
     sdk: flutter
   mocktail: ^1.0.4
   flutter_iconica_analysis:
-    git:
-      url: https://github.com/Iconica-Development/flutter_iconica_analysis
-      ref: 7.0.0
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub
+    version: ^7.0.0

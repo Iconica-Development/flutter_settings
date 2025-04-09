@@ -63,6 +63,7 @@ class SettingsControl<T> {
   /// A list of settings that this setting depends on.
   final List<SettingsControl>? dependencies;
 
+  /// Indicates whether the setting has unsaved changes.
   bool get requiresSaving => value != changedValue;
 
   /// Returns `true` if the setting has unsaved changes.

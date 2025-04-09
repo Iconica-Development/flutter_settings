@@ -4,7 +4,6 @@ import "package:settings_repository/settings_repository.dart";
 /// A repository implementation to enable handling multiple repository types
 /// for a single settings solution.
 class HybridSettingsRepository implements SettingsRepository {
-
   /// Creates a hybrid repository to divide settings across multiple
   /// datasources
   HybridSettingsRepository({
@@ -113,7 +112,6 @@ class HybridSettingsRepository implements SettingsRepository {
 /// A grouping between a repository and the keys for which the repository should
 /// be used.
 class AlternateSettingsRepository {
-
   /// Create an alternative to the base settings repository.
   AlternateSettingsRepository({
     required this.settingKeys,

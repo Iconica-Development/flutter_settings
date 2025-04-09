@@ -1,11 +1,11 @@
-import 'package:device_settings_repository/device_settings_repository.dart';
-import 'package:example/my_image_control.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_settings/flutter_settings.dart';
-import 'package:intl/intl.dart';
-import 'package:settings_repository/settings_repository.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import "package:device_settings_repository/device_settings_repository.dart";
+import "package:example/my_image_control.dart";
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:flutter_localizations/flutter_localizations.dart";
+import "package:flutter_settings/flutter_settings.dart";
+import "package:intl/intl.dart";
+import "package:settings_repository/settings_repository.dart";
 
 final sharedPreferencesRepository = DeviceSettingsRepository();
 
@@ -59,7 +59,7 @@ List<SettingsControlConfig> getSettingControls() => <SettingsControlConfig>[
         ],
       ),
       ControlConfig.group(
-        title: 'Checkboxes',
+        title: "Checkboxes",
         children: [
           ControlConfig.checkbox(
             key: "checkbox_1",
@@ -111,7 +111,7 @@ List<SettingsControlConfig> getSettingControls() => <SettingsControlConfig>[
         ],
       ),
       ControlConfig.group(
-        title: 'Text',
+        title: "Text",
         children: [
           ControlConfig.text(
             key: "text_1",
@@ -256,15 +256,13 @@ class MyCustomSetting
     BuildContext context,
     SettingsControl<int> control,
     SettingsControlController controller,
-  ) {
-    return Slider(
-      max: 10,
-      value: control.value?.toDouble() ?? 0.0,
-      onChanged: (value) {
-        controller.updateControl(control.update(value.toInt()));
-      },
-    );
-  }
+  ) =>
+      Slider(
+        max: 10,
+        value: control.value?.toDouble() ?? 0.0,
+        onChanged: (value) async =>
+            controller.updateControl(control.update(value.toInt())),
+      );
 }
 
 class MyApp extends StatelessWidget {
@@ -301,9 +299,7 @@ class MyApp extends StatelessWidget {
               stream: settingsService.getValue<int>("int_slider_1", () => 0),
               builder: (context, snapshot) => FloatingActionButton(
                 child: Text("${snapshot.data}"),
-                onPressed: () {
-                  settingsService.setValue("test_1", true);
-                },
+                onPressed: () async => settingsService.setValue("test_1", true),
               ),
             ),
           ),

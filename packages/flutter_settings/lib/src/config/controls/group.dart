@@ -7,7 +7,7 @@ import "package:settings_repository/settings_repository.dart";
 class GroupControlConfig
     extends SettingsControlConfig<Never, GroupControlConfig> {
   ///
-  GroupControlConfig({
+  const GroupControlConfig({
     required this.title,
     required this.description,
     required this.children,

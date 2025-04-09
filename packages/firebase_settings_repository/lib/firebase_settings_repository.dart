@@ -1,15 +1,22 @@
+///
 library firebase_settings_repository;
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:settings_repository/settings_repository.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+import "package:settings_repository/settings_repository.dart";
 
+/// A firebase implementation for the settings repository.
+///
+/// Uses firestore to store settings using the given [baseCollectionPath].
 class FirebaseSettingsRepository implements SettingsRepository {
+  /// Create firebase implementation for [SettingsRepository]
   FirebaseSettingsRepository({
     required FirebaseFirestore firestore,
     this.baseCollectionPath = "flutter_settings",
   }) : _firestore = firestore;
 
   final FirebaseFirestore _firestore;
+
+  /// The base collection path for the settings in firestore.
   final String baseCollectionPath;
 
   @override
@@ -81,15 +88,15 @@ class FirebaseSettingsRepository implements SettingsRepository {
   }
 
   DocumentReference<SettingsModel> _getDocumentReferenceForNamespace(
-      String namespace) {
-    return _firestore
-        .collection(baseCollectionPath)
-        .withConverter(
-          fromFirestore: (snapshot, options) => SettingsModel(
-            data: snapshot.data()!,
-          ),
-          toFirestore: (model, options) => model.data,
-        )
-        .doc(namespace);
-  }
+    String namespace,
+  ) =>
+      _firestore
+          .collection(baseCollectionPath)
+          .withConverter(
+            fromFirestore: (snapshot, options) => SettingsModel(
+              data: snapshot.data()!,
+            ),
+            toFirestore: (model, options) => model.data,
+          )
+          .doc(namespace);
 }

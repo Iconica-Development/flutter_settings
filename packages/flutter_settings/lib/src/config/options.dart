@@ -50,7 +50,8 @@ class SettingsOptions {
   final ButtonBuilder primaryButtonBuilder;
 }
 
-///
+/// A builder that describes the required parameters to create a base screen
+/// around the SettingsScreen
 typedef BaseScreenBuilder = Widget Function(
   BuildContext context,
   VoidCallback onBack,

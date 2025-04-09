@@ -2,7 +2,9 @@ import "package:flutter/material.dart";
 import "package:flutter_settings/src/config/controls/controls.dart";
 import "package:settings_repository/settings_repository.dart";
 
+/// A controller for maintaining all currently edited settings
 ///
+/// Manages saving and local caching.
 class SettingsControlController extends ChangeNotifier {
   ///
   SettingsControlController({
@@ -23,7 +25,7 @@ class SettingsControlController extends ChangeNotifier {
 
   final Map<String, dynamic> _uncomitted = {};
 
-  ///
+  /// Update controls depending on the current state
   List<SettingsControl> mapUncommittedControls(
     List<SettingsControl> controls,
   ) =>
@@ -49,7 +51,7 @@ class SettingsControlController extends ChangeNotifier {
         return control;
       }).toList();
 
-  ///
+  /// Update all outstanding changes in controls
   Future<void> commit(List<SettingsControl> controls) async {
     var mapped = mapUncommittedControls(controls);
     _uncomitted.clear();
@@ -57,7 +59,9 @@ class SettingsControlController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Updates a control with the new value
   ///
+  /// Will automatically save if [autoCommit] is set to true.
   Future<void> updateControl(SettingsControl control) async {
     if (control.key == null) {
       return;
@@ -71,7 +75,7 @@ class SettingsControlController extends ChangeNotifier {
     }
   }
 
-  ///
+  /// Move to a different settingspage with PageControlConfig as its base
   Future<void> moveToPage(PageControlConfig config) async {
     await _onMoveToPage(config);
   }

@@ -8,7 +8,7 @@ import "package:settings_repository/settings_repository.dart";
 class DateControlConfig
     extends DescriptiveTitleControlConfig<String, DateControlConfig> {
   /// Constructor for Date Control Config
-  DateControlConfig({
+  const DateControlConfig({
     required super.title,
     required super.description,
     required super.initialValue,

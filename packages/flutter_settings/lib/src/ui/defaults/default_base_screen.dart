@@ -27,22 +27,16 @@ class DefaultBaseScreen extends StatelessWidget {
   final VoidCallback onBack;
 
   @override
-  Widget build(BuildContext context) {
-    ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
-    var isDismissable = parentRoute?.impliesAppBarDismissal ?? false;
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: isDismissable
-            ? BackButton(
-                onPressed: onBack,
-              )
-            : null,
-        title: const Text("Settings"),
-      ),
-      body: SafeArea(
-        child: child,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: BackButton(
+            onPressed: onBack,
+          ),
+          title: const Text("Settings"),
+        ),
+        body: SafeArea(
+          child: child,
+        ),
+      );
 }
