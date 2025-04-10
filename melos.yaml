@@ -35,6 +35,13 @@ scripts:
     run: dart run melos exec dart format . --set-exit-if-changed
     description: Run `dart format` checks for all packages.
 
+  pre-commit:
+    # run the format-check and the analyze commands
+    run: |
+      dart run melos exec -c 1 -- \
+        flutter analyze --fatal-infos
+      dart run melos exec dart format . --set-exit-if-changed
+
   test:
     run: |
       dart run melos exec -c 1 -- \
