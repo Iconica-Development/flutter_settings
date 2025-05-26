@@ -10,6 +10,7 @@ import "package:intl/intl.dart";
 import "package:settings_repository/settings_repository.dart";
 
 export "base.dart";
+export "duration.dart";
 export "group.dart";
 export "page.dart";
 export "text.dart";

@@ -41,6 +41,10 @@ List<SettingsControlConfig> getSettingControls() => <SettingsControlConfig>[
             hintText: "HH:mm AM/PM",
             timeFormat: DateFormat("hh:mm a"),
           ),
+          DurationControlConfig(
+            key: "duration_control",
+            title: "Duration",
+          ),
         ],
       ),
       ControlConfig.group(

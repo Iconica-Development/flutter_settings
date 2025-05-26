@@ -20,6 +20,7 @@ dependencies:
   flutter_iconica_utilities:
     version: ^0.5.0
     hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub
+  sleek_circular_slider: ^2.0.1
 
 dev_dependencies:
   flutter_test:
